@@ -26,6 +26,10 @@ public class Player : Common
         }
     }
 
+    public override void ReceiveDamage()
+    {
+        
+    }
 
     void Move()
     {

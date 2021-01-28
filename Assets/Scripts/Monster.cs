@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//모든 몬스터의 상위 클래스
 public class Monster : Common
 {
     private Player player;
@@ -13,10 +14,15 @@ public class Monster : Common
         this.gameManager = gameManager;
     }
 
-    public void spawnMonster()
+    public void ActiveMonster()
     {
+        //초기화
         gameManager.activeCommons.Add(this);
-    } 
+    }
+
+    public override void ReceiveDamage()
+    {
+    }
 
     void move()
     {

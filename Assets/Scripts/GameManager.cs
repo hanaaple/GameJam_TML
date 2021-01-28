@@ -7,7 +7,11 @@ public class GameManager : MonoBehaviour
     internal List<Common> activeCommons = new List<Common>();
     [SerializeField] private float N;
 
+    [SerializeField] private Chibok chibok;
     [SerializeField] private Player player;
+    [SerializeField] private MonsterSpawnManager monsterSpawnManager;
+    [SerializeField] private MoveManager moveManager;
+    
     private float behaviorTime;
     private int StageIndex;
     private int spawnTurn;
@@ -17,6 +21,9 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         activeCommons.Add(player);
+        monsterSpawnManager.InitializeMonsterSpawnManager(this);
+        chibok.InitializeChibok(moveManager);
+        
     }
 
     IEnumerator StageOneRoutine()
@@ -33,6 +40,7 @@ public class GameManager : MonoBehaviour
 
             
             //턴 진행중
+            
             
             
             spawnTurn++;

@@ -31,7 +31,7 @@ public class MonsterSpawnManager: MonoBehaviour
         monsterPool.Add(bossPool);
     }
 
-    void InitializeMonsterSpawnManager(GameManager gameManager)
+    public void InitializeMonsterSpawnManager(GameManager gameManager)
     {
         this.gameManager = gameManager;
     }
@@ -39,9 +39,9 @@ public class MonsterSpawnManager: MonoBehaviour
     // spawnIndex에 monsterIndex번 몬스터를 소환
     void ActiveMonster(int spawnIndex, Type monsterType)
     {
-        GameObject monster = monsterPool[(int)monsterType].GetObject();
+        GameObject monster = monsterPool[(int) monsterType].GetObject();
         //몬스터 초기화 및 동작
-        gameManager.activeCommons.Add(monster.GetComponent<Monster>());
+        monster.GetComponent<Monster>().ActiveMonster();
     }
 
     void SpawnCheck(int turn)
