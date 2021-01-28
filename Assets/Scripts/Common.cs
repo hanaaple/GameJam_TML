@@ -7,5 +7,5 @@ public abstract class Common : MonoBehaviour
 {
     internal bool isTired;
 
-    public abstract void ReceiveDamage();
+    public abstract void ReceiveDamage(int Damage);
 }

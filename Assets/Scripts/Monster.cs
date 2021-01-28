@@ -20,7 +20,7 @@ public class Monster : Common
         gameManager.activeCommons.Add(this);
     }
 
-    public override void ReceiveDamage()
+    public override void ReceiveDamage(int Damage)
     {
     }
 

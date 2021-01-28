@@ -19,7 +19,7 @@ public class Chibok : Common
         moveManager.Move(moveManager.FinalNodeList[0]);
     }
 
-    public override void ReceiveDamage()
+    public override void ReceiveDamage(int Damage)
     {
         //게임 종료   
     }
