@@ -10,7 +10,10 @@ public class Chibok : Common
     {
         this.moveManager = moveManager;
     }
-
+    public override void Active()
+    {
+        //움직인다 랜덤성을 부여하고
+    }
 
     public void Move(){
         //체크 후
@@ -21,6 +24,6 @@ public class Chibok : Common
 
     public override void ReceiveDamage(int Damage)
     {
-        //게임 종료   
+        //게임 종료
     }
 }

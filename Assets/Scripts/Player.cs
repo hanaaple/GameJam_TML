@@ -13,6 +13,11 @@ public class Player : Common
         playerStat = new Stat();
     }
 
+
+    public override void Active()
+    {
+        Debug.Log("되나?");
+    }
     void Update()
     {
         //움직임 체크하여 움직인다.

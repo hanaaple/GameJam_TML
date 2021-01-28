@@ -8,4 +8,5 @@ public abstract class Common : MonoBehaviour
     internal bool isTired;
 
     public abstract void ReceiveDamage(int Damage);
+    public abstract void Active();
 }

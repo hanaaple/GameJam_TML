@@ -13,31 +13,41 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MoveManager moveManager;
     
     private float behaviorTime;
-    private int StageIndex;
+    private int StageIndex = 1;
     private int spawnTurn;
-    private bool isBattleMode;
+    private bool isBattleMode = true;
 
 
     public void Awake()
     {
-        activeCommons.Add(player);
         monsterSpawnManager.InitializeMonsterSpawnManager(this);
         chibok.InitializeChibok(moveManager);
+    }
+
+    public void Start()
+    {
         
+        StartCoroutine(StageOneRoutine());
     }
 
     IEnumerator StageOneRoutine()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(N);
         spawnTurn = 1;
-
+        
         // 1스테이지   전투시간동안 반복
         while (isBattleMode && StageIndex == 1)
         {
             //N초마다
+            player.isTired = false;
             foreach (Common common in activeCommons)
+            {
                 common.isTired = false;
-
+                common.Active();
+            }
+            //chibok.이동
+            //
+            
             
             //턴 진행중
             
