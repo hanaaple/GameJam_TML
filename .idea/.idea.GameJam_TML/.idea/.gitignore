@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/contentModel.xml
+/.idea.GameJam_TML.iml
+# Datasource local storage ignored files
+/../../../../../../../../../:\Users\의수\Documents\GitHub\GameJam_TML\.idea\.idea.GameJam_TML\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
