@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Common : MonoBehaviour
 {
-    
+    internal bool isTired;
 }
