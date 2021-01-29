@@ -721,7 +721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isSpawn: 1
   text: {fileID: 1727972527}
-  N: 1
+  N: 2
   chibok: {fileID: 1722158999}
   player: {fileID: 2112325982}
   monsterSpawnManager: {fileID: 224177248}
@@ -1132,6 +1132,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1505840637 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4805286643027604379, guid: 83dd1b60514ed71479520281aff92f56,
+    type: 3}
+  m_PrefabInstance: {fileID: 1722158998}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1505840638
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505840637}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 94a753a2a73f3ff4088db61a1ce79f0f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1686796207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,7 +1291,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1722158998}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1505840637}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0599a73ba65c4a4787b456fed95d488c, type: 3}
@@ -1513,13 +1538,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2112325978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8657648177520849396, guid: 1baac0f4a0b6abb4c8c4555866e50337,
+    type: 3}
+  m_PrefabInstance: {fileID: 8657648177976424622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2112325979
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112325978}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 039ba4cadb5e5014e9db27bf336fb146, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2112325982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8657648177520849392, guid: 1baac0f4a0b6abb4c8c4555866e50337,
     type: 3}
   m_PrefabInstance: {fileID: 8657648177976424622}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2112325978}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d11b426d37fa4b7995c1e0253b2b1bf3, type: 3}
@@ -1612,6 +1662,12 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8657648177520849394, guid: 1baac0f4a0b6abb4c8c4555866e50337,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2311659948842064771, guid: d027c4b738efcb04d93350e97426df7d,
+        type: 3}
     - target: {fileID: 8657648177520849396, guid: 1baac0f4a0b6abb4c8c4555866e50337,
         type: 3}
       propertyPath: m_Name
