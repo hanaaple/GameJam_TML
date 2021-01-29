@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7538107148146826960}
   - component: {fileID: 7538107148146826961}
   - component: {fileID: 5603700998188807279}
-  m_Layer: 0
+  - component: {fileID: 3743032848835561056}
+  m_Layer: 8
   m_Name: "\uC7A1\uBAB9"
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 8858294917653079190, guid: 6b42bb245b6317746a7db15b60717db2,
+  m_Sprite: {fileID: -3585194156634229862, guid: fc2f9bddee7a5ef46b0fc1e629fc95dd,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,7 +125,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3515625, y: 1.453125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -145,6 +146,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af916c6ec1ab4960b68453119e863543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3743032848835561056
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7538107148146826922}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99c1e775b6b25334cb8204fa0a7e4ca5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7538107148370518038
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +176,7 @@ GameObject:
   - component: {fileID: 7538107148370518041}
   - component: {fileID: 7538107148370518040}
   - component: {fileID: 8283993487033061601}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,13 +275,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7538107148949259323}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7538107148949259323
 Transform:
   m_ObjectHideFlags: 0

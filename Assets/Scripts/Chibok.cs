@@ -17,7 +17,8 @@ public class Chibok : Common
     {
         //타켓 위치로 한칸 이동
         //확률에 따라 산책가도록 변경해야됨
-        Move(new Vector2Int((int)targetPosition.position.x, (int)targetPosition.position.y));
+        moveManager.PathFinding(transform, new Vector2Int((int)targetPosition.position.x, (int)targetPosition.position.y));
+        Move();
     }
 
     public override void ReceiveDamage(int Damage)

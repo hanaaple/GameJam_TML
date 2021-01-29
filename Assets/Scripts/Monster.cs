@@ -13,9 +13,16 @@ public class Monster : Common
     private MonsterSpawnManager.Type monsterType;
     private bool isTired;
     private bool finalAttack;
+    private Animator anim;
+    private Vector3 moveVec;
+    List<int> hitCounts = new List<int>();
+    private float anitime;
+    private Transform pivotTransform;
     
     public void InitializeMonster(Player player, GameManager gameManager, MoveManager moveManager)
     {
+        pivotTransform = transform.GetChild(0).transform;
+        anim = gameObject.GetComponent<Animator>();
         this.player = player;
         this.gameManager = gameManager;
         this.moveManager = moveManager;
@@ -26,24 +33,31 @@ public class Monster : Common
     {
         isTired = false;
         // Debug.Log("몬스터 활동");
-        
+        moveManager.PathFinding(transform,
+            new Vector2Int((int) player.transform.position.x, (int) player.transform.position.y));
 
         if (monsterType == MonsterSpawnManager.Type.idle)
+        {
+            anitime =0.5f;
             CheckAttack();
+        }
         else if (monsterType == MonsterSpawnManager.Type.medium)
         {
+            anitime = 0.417f;
             CheckAttack();
             if(!isTired)
                 RangeAttack();
         }
         else if (monsterType == MonsterSpawnManager.Type.huge)
         {
+            //anitime = 1f;
             CheckAttack();
             if(!isTired)
                 StrongAttack();
         }
         else if (monsterType == MonsterSpawnManager.Type.boss)
         {
+            //anitime = 1f;
             if (monsterStat.curHp <= 3 && !finalAttack)
             {
                 FinalAttack();
@@ -58,11 +72,42 @@ public class Monster : Common
                     StrongAttack();
             }
         }
+
         if (!isTired)
-            Move(new Vector2Int((int) player.transform.position.x, (int) player.transform.position.y));
+        {
+            if (moveManager.FinalNodeList.Count >= 2)
+            {
+                moveVec = new Vector3(moveManager.FinalNodeList[1].x - transform.position.x,
+                    moveManager.FinalNodeList[1].y - transform.position.y);
+                if (moveVec.y == 1)
+                {
+                    anim.SetInteger("isVertical", 1);
+                    anim.SetBool("isHorizontal", false);
+                    //뒤
+                }else if (moveVec.y == -1)
+                {
+                    anim.SetBool("isHorizontal", false);
+                    anim.SetInteger("isVertical", -1);
+                    //앞
+                }else if (moveVec.x == 1)
+                {
+                    anim.SetInteger("isVertical", 0);
+                    anim.SetBool("isHorizontal", true);
+                    //오른쪽
+                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                }else if (moveVec.x == -1)
+                {
+                    anim.SetInteger("isVertical", 0);
+                    anim.SetBool("isHorizontal", true);
+                    //왼쪽
+                    gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                }
+                Move();
+            }
+        }
     }
 
-    IEnumerator ani(float time, Animator anim)
+    IEnumerator ani(float time)
     {
         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         float curTime = 0;
@@ -71,8 +116,8 @@ public class Monster : Common
             curTime += Time.fixedDeltaTime;
             yield return waitForFixedUpdate;            
         }
-
         anim.SetBool("isAttack", false);
+        pivotTransform.gameObject.SetActive(false);
     }
     
     //매개변수로 시간 줘서 하자
@@ -94,7 +139,6 @@ public class Monster : Common
 
     void FinalAttack()
     { 
-        Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(7f, 7f, 1f);
         
@@ -114,12 +158,10 @@ public class Monster : Common
     
     void CheckAttack()
     {
+        hitCounts.Clear();
         //Debug.Log("몬스터 기본 공격");
-
-        Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(3f, 1f, 1f);
-        List<int> hitCounts = new List<int>();
         int layerMask = (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Chibok"));
         
         //1번 모든 방향으로 체크
@@ -156,8 +198,7 @@ public class Monster : Common
         }
         attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
         
-        Debug.Log(hitCounts.Max());
-        Debug.Log(hitCounts.IndexOf(hitCounts.Max()));
+        
         switch (hitCounts.IndexOf(hitCounts.Max()))
         {
             case 0:
@@ -175,18 +216,47 @@ public class Monster : Common
                 attackRange.localPosition = Vector3.right;
                 break;
         }
+        hitCounts.Clear();
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
             layerMask);
-        Debug.Log(hits.Length);
+        
         if (hits != null)
         {
             pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("오른쪽");
             RayAttack(hits);
-            return;
+            anim.SetTrigger("Attack");
+            moveVec = attackRange.localPosition;
+            anim.SetBool("isAttack", true);
+            if (moveVec.y == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 1);
+                anim.SetBool("isHorizontal", false);
+                //뒤
+            }else if (moveVec.y == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetBool("isHorizontal", false);
+                anim.SetInteger("isVertical", -1);
+                //앞
+            }else if (moveVec.x == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //오른쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }else if (moveVec.x == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //왼쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
         
-        // 왜 있는거지
+        // 왜 있는거지 - 나 좀 천재인듯 ㄹㅇ
         // moveManager.PathFinding(transform,
         //     new Vector2Int((int) player.transform.position.x, (int) player.transform.position.y));
         //
@@ -199,8 +269,8 @@ public class Monster : Common
 
     void RangeAttack()
     {
+        hitCounts.Clear();
         //Debug.Log("중간 몬스터 공격");
-        Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(1f, 3f, 1f);
 
@@ -214,58 +284,102 @@ public class Monster : Common
         attackRange.localPosition = Vector3.up * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("위");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         //하
         attackRange.localPosition = Vector3.down * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.down, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("아래");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
+        
         attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
         //좌
         attackRange.localPosition = Vector3.left * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.left, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("왼쪽");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
+        
 
         //우
         attackRange.localPosition = Vector3.right * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.right, 0f,
             layerMask);
-        if (hits.Length != 0)
+        hitCounts.Add(hits.Length);
+        
+        
+        
+        
+        if (hitCounts.Max() == 0)
         {
-            pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("오른쪽");
-            RayAttack(hits);
+            pivotTransform.gameObject.SetActive(false);
             return;
         }
-        pivotTransform.gameObject.SetActive(false);
+        attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+        Debug.Log(hitCounts.Max());
+        Debug.Log(hitCounts.IndexOf(hitCounts.Max()));
+        switch (hitCounts.IndexOf(hitCounts.Max()))
+        {
+            case 0:
+                attackRange.localPosition = Vector3.up * AttackRangePos;
+                break;
+            case 1:
+                attackRange.localPosition = Vector3.down * AttackRangePos;
+                break;
+            case 2:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.left * AttackRangePos;
+                break;
+            case 3:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.right * AttackRangePos;
+                break;
+        }
+        hitCounts.Clear();
+        hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
+            layerMask);
+        
+        if (hits != null)
+        {
+            pivotTransform.gameObject.SetActive(true);
+            RayAttack(hits);
+            anim.SetTrigger("Attack");
+            moveVec = attackRange.localPosition/ AttackRangePos;
+            anim.SetBool("isAttack", true);
+            if ((int)moveVec.y == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 1);
+                anim.SetBool("isHorizontal", false);
+                //뒤
+            }else if ((int)moveVec.y == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetBool("isHorizontal", false);
+                anim.SetInteger("isVertical", -1);
+                //앞
+            }else if ((int)moveVec.x == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //오른쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }else if ((int)moveVec.x == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //왼쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+        }
     }
     
     void StrongAttack()
     {
         //Debug.Log("큰 몬스터 공격");
         
-        Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(3f, 2f, 1f);
 
@@ -279,61 +393,93 @@ public class Monster : Common
         attackRange.localPosition = Vector3.up * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("위");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         //하
         attackRange.localPosition = Vector3.down * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.down, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("아래");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
         //좌
         attackRange.localPosition = Vector3.left * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.left, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("왼쪽");
-            RayAttack(hits);
-            return;
-        }
-
+        hitCounts.Add(hits.Length);
         //우
         attackRange.localPosition = Vector3.right * AttackRangePos;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.right, 0f,
             layerMask);
-        if (hits.Length != 0)
+        hitCounts.Add(hits.Length);
+        
+        
+        
+        if (hitCounts.Max() == 0)
         {
-            pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("오른쪽");
-            RayAttack(hits);
+            pivotTransform.gameObject.SetActive(false);
             return;
         }
-        pivotTransform.gameObject.SetActive(false);
+        attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+        
+        switch (hitCounts.IndexOf(hitCounts.Max()))
+        {
+            case 0:
+                attackRange.localPosition = Vector3.up * AttackRangePos;
+                break;
+            case 1:
+                attackRange.localPosition = Vector3.down * AttackRangePos;
+                break;
+            case 2:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.left * AttackRangePos;
+                break;
+            case 3:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.right * AttackRangePos;
+                break;
+        }
+        hitCounts.Clear();
+        hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
+            layerMask);
+        
+        if (hits != null)
+        {
+            pivotTransform.gameObject.SetActive(true);
+            RayAttack(hits);
+            anim.SetTrigger("Attack");
+            moveVec = attackRange.localPosition/AttackRangePos;
+            anim.SetBool("isAttack", true);
+            if ((int)moveVec.y == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 1);
+                anim.SetBool("isHorizontal", false);
+                //뒤
+            }else if ((int)moveVec.y == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetBool("isHorizontal", false);
+                anim.SetInteger("isVertical", -1);
+                //앞
+            }else if ((int)moveVec.x == 1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //오른쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }else if ((int)moveVec.x == -1)
+            {
+                StartCoroutine(ani(anitime));
+                anim.SetInteger("isVertical", 0);
+                anim.SetBool("isHorizontal", true);
+                //왼쪽
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
+        }
+        
     }
-    
-
-    
-    
-    
-    
-    
-    
-    
     
     //스폰 - 몬스터 활성화
     public void ActiveMonster(MonsterSpawnManager.Type monsterType)
