@@ -1,29 +1,41 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
 public class Chibok : Common
 {
-    private MoveManager moveManager;
-
-    public void InitializeChibok(MoveManager moveManager)
+    public Transform targetPosition;
+    
+    public void InitializeChibok(MoveManager moveManager, GameManager gameManager)
     {
+        this.gameManager = gameManager;
         this.moveManager = moveManager;
     }
-    public override void Active()
-    {
-        //움직인다 랜덤성을 부여하고
-    }
 
-    public void Move(){
-        //체크 후
-        moveManager.PathFinding(new Vector2Int(1, 2));
-        //이동
-        moveManager.Move(moveManager.FinalNodeList[0]);
+    public void Active()
+    {
+        //타켓 위치로 한칸 이동
+        //확률에 따라 산책가도록 변경해야됨
+        Move(new Vector2Int((int)targetPosition.position.x, (int)targetPosition.position.y));
     }
 
     public override void ReceiveDamage(int Damage)
     {
-        //게임 종료
+        Debug.Log("치복이 사망");
+    }
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Convenient Store"))
+        {
+            gameManager.isBattleMode = false;
+            CancelInvoke("Active");
+            foreach (Monster monster in gameManager.activeMonsters)
+            {
+                monster.DestroyMonster();
+            }
+            //미연시 시작
+        }
     }
 }

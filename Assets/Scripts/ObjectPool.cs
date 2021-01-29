@@ -12,7 +12,7 @@ public class ObjectPool : MonoBehaviour
     public void InitializePool(GameObject prefab, int poolSize)
     {
         this.prefab = prefab;
-        folder = new GameObject(prefab.name + "Folder");
+        folder = new GameObject(prefab.name + " Folder");
         CreateObject(poolSize);
     }
     

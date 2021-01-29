@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class SmallMonster : Monster
 {
-    public override void Attack()
+    public void Attack(Common common)
     {
-        
+        //공격 모션
+        //common.ReceiveDamage(monsterStat.damage);
     }
-
-    public override void Move()
-    { 
-        
+    public void ActiveMonster()
+    {
+        //초기화
+        gameManager.activeMonsters.Add(this);
     }
 
     // IEnumerator ShowAttackRange()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Node{
     public Node(bool _isWall, int _x, int _y) { isWall = _isWall; x = _x; y = _y; }
@@ -18,7 +19,8 @@ public class Node{
 
 public class MoveManager : MonoBehaviour
 {
-    public Vector2Int bottomLeft, topRight;
+    //타일맵 전체 사이즈
+    [SerializeField] private Vector2Int bottomLeft, topRight;
     private Vector2Int startPos, targetPos;
     public List<Node> FinalNodeList = new List<Node>();
 
@@ -27,15 +29,16 @@ public class MoveManager : MonoBehaviour
     private Node StartNode, TargetNode, CurNode;
     private List<Node> OpenList, ClosedList;
 
-    public void PathFinding(Vector2Int startPos, Vector2Int targetPos)
+    public void PathFinding(Transform startPos, Vector2Int targetPos)
     {
+        FinalNodeList.Clear();
         this.targetPos = targetPos;
-        PathFinding(startPos);
+        this.startPos = new Vector2Int((int) startPos.position.x, (int) startPos.position.y);
+        PathFinding();
     }
 
-    public void PathFinding(Vector2Int startPos)
+    public void PathFinding()
     {
-        this.startPos = startPos;
         // NodeArray의 크기 정해주고, isWall, x, y 대입
         sizeX = topRight.x - bottomLeft.x + 1;
         sizeY = topRight.y - bottomLeft.y + 1;
@@ -89,17 +92,47 @@ public class MoveManager : MonoBehaviour
                 FinalNodeList.Reverse();
 
                 for (int i = 0; i < FinalNodeList.Count; i++)
-                    Debug.Log(i + "번째는 " + FinalNodeList[i].x + ", " + FinalNodeList[i].y);
+                {
+                    //Debug.Log(i + "번째는 " + FinalNodeList[i].x + ", " + FinalNodeList[i].y);
+                }
+
                 return;
             }
 
+            //랜덤성 부여하면 끝
             // ↑ → ↓ ←
-            OpenListAdd(CurNode.x, CurNode.y + 1);
-            OpenListAdd(CurNode.x + 1, CurNode.y);
-            OpenListAdd(CurNode.x, CurNode.y - 1);
-            OpenListAdd(CurNode.x - 1, CurNode.y);
+
+            List<int[]> random = new List<int[]>();
+            random.Add(new int[2]{0, 1});
+            random.Add(new int[2]{0, -1});
+            random.Add(new int[2]{1, 0});
+            random.Add(new int[2]{-1, 0});
+            Shuffle(random);
+            for (int i = 0; i < 4; i++)
+            {
+                OpenListAdd(CurNode.x + random[0][0], CurNode.y + random[0][1]);
+                random.RemoveAt(0);
+            }
+
+            // OpenListAdd(CurNode.x, CurNode.y + 1);
+            // OpenListAdd(CurNode.x + 1, CurNode.y);
+            // OpenListAdd(CurNode.x, CurNode.y - 1);
+            // OpenListAdd(CurNode.x - 1, CurNode.y);
         }
     }
+    
+    public void Shuffle<T>(List<T> list)
+    {
+        int size = list.Count;
+        for (int index = 0; index < size; index++)
+        {
+            int randIndex = Random.Range(index, size);  // index ~ size -1
+            T temp = list[index];
+            list[index] = list[randIndex];
+            list[randIndex] = temp;
+        }
+    }
+
 
     void OpenListAdd(int checkX, int checkY)
     {
@@ -129,15 +162,15 @@ public class MoveManager : MonoBehaviour
     }
     
     //해당 칸으로 이동하는 함수
-    public void Move(Node tagetNode){
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tagetNode.x, tagetNode.y), 1f);
+    public void Move(Transform startPos, Node tagetNode){
+        startPos.position = Vector2.MoveTowards(startPos.position, new Vector2(tagetNode.x, tagetNode.y), 1f);
         //애니메이션 추가
     }
 
     void OnDrawGizmos()
     {
         if (FinalNodeList.Count != 0)
-            for (int i = 0; i < FinalNodeList.Count - 1; i++)
+            for (int i = 1; i < FinalNodeList.Count - 1; i++)
                 Gizmos.DrawLine(new Vector2(FinalNodeList[i].x, FinalNodeList[i].y),
                     new Vector2(FinalNodeList[i + 1].x, FinalNodeList[i + 1].y));
     }

@@ -7,16 +7,13 @@ using UnityEngine.PlayerLoop;
 public class Player : Common
 {
     private bool isHorizontalMove;
-    private Stat playerStat;
-    private void Awake()
+    public Stat playerStat;
+    internal bool isTired;
+    
+
+    public void InitializePlayer()
     {
         playerStat = new Stat();
-    }
-
-
-    public override void Active()
-    {
-        Debug.Log("되나?");
     }
     void Update()
     {
@@ -38,15 +35,16 @@ public class Player : Common
             }
             else
             {
-                Move();
+                if(!Input.GetButton("Fire1"))
+                    Move();
             }
         }
     }
 
     public override void ReceiveDamage(int Damage)
     {
-        playerStat.hp -= Damage;
-        if(playerStat.hp <= 0)
+        playerStat.curHp -= Damage;
+        if(playerStat.curHp <= 0)
         {
             // 사망
         }
@@ -60,7 +58,7 @@ public class Player : Common
         float v = Input.GetAxisRaw("Vertical");
         if (hDown || vDown)
         {
-            Debug.Log("방향키 눌러써!");
+            //Debug.Log("방향키 눌러써!");
 
             //동시 입력 방지
             if (hDown)
@@ -97,8 +95,15 @@ public class Player : Common
                 Transform pivotTransform = transform.GetChild(0).transform;
                 pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
                     Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z);
+            }else if(Input.GetKeyUp(keyCode))
+            {
+                //공격 판정이 끝날때까지
+                //while (true)
+                {
+                    
+                }
+                transform.GetChild(0).gameObject.SetActive(false);
             }
-            if (!Input.GetKey(keyCode)) yield break;
             yield return waitForFixedUpdate;
         }
     }
@@ -108,11 +113,11 @@ public class Player : Common
     {
         Debug.Log("z 누름");
         isTired = true;
+        transform.GetChild(0).gameObject.SetActive(true);
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
-        attackRange.position = Vector3.up;
+        attackRange.localPosition = Vector3.up;
         attackRange.localScale = new Vector3(3f, 1f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.Z));
-        //공격
     }
 
 
@@ -121,11 +126,11 @@ public class Player : Common
     {
         Debug.Log("x 누름");
         isTired = true;
+        transform.GetChild(0).gameObject.SetActive(true);
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
-        attackRange.position = new Vector3(0f, 1.5f);
+        attackRange.localPosition = new Vector3(0f, 1.5f);
         attackRange.localScale = new Vector3(3f, 2f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.X));
-        //공격
     }
     
     // 원거리 공격 - c
@@ -133,16 +138,17 @@ public class Player : Common
     {
         Debug.Log("c 누름");
         isTired = true;
+        transform.GetChild(0).gameObject.SetActive(true);
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
-        attackRange.position = Vector3.up * 3f;
+        attackRange.localPosition = Vector3.up * 3f;
         attackRange.localScale = new Vector3(1f, 5f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.C));
-        //공격
     }
-
-    class Stat
+    [System.Serializable]
+    public class Stat
     {
-        public int hp;
+        public int curHp;
+        public int maxHp;
         public int damage;
         
     }

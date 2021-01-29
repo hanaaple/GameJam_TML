@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    internal List<Common> activeCommons = new List<Common>();
+    internal List<Monster> activeMonsters = new List<Monster>();
     [SerializeField] private float N;
 
     [SerializeField] private Chibok chibok;
@@ -12,21 +12,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MonsterSpawnManager monsterSpawnManager;
     [SerializeField] private MoveManager moveManager;
     
-    private float behaviorTime;
-    private int StageIndex = 1;
-    private int spawnTurn;
-    private bool isBattleMode = true;
-
+    //오류 방지용도
+    internal int StageIndex = 1;
+    internal int spawnTurn;
+    internal bool isBattleMode = true; 
+    public bool isBossDestroyed { get; internal set; }
 
     public void Awake()
     {
-        monsterSpawnManager.InitializeMonsterSpawnManager(this);
-        chibok.InitializeChibok(moveManager);
+        player.InitializePlayer();
+        monsterSpawnManager.InitializeMonsterSpawnManager(this, player, moveManager);
+        chibok.InitializeChibok(moveManager, this);
     }
 
     public void Start()
     {
-        
+        isBattleMode = true;
         StartCoroutine(StageOneRoutine());
     }
 
@@ -36,25 +37,20 @@ public class GameManager : MonoBehaviour
         spawnTurn = 1;
         
         // 1스테이지   전투시간동안 반복
-        while (isBattleMode && StageIndex == 1)
+        while (isBattleMode)
         {
-            //N초마다
+            Debug.Log($"{spawnTurn}번 째 턴");
             player.isTired = false;
-            foreach (Common common in activeCommons)
-            {
-                common.isTired = false;
-                common.Active();
-            }
-            //chibok.이동
-            //
+            chibok.Active();
             
+            foreach (Monster monster in activeMonsters)
+                monster.Active();
             
-            //턴 진행중
-            
-            
+            monsterSpawnManager.SpawnCheck(spawnTurn);
             
             spawnTurn++;
             yield return waitForSeconds;
+            //N초 동안 플레이어 자유 행동 가능
         }
     }
 
@@ -65,15 +61,21 @@ public class GameManager : MonoBehaviour
         spawnTurn = 1;
         
         // 2스테이지   전투시간동안 반복
-        while (isBattleMode && StageIndex == 2)
+        while (isBattleMode)
         {
-            foreach (Common common in activeCommons)
-                common.isTired = false;
+            Debug.Log("N초마다 말합니다.");
+            player.isTired = false;
+            chibok.Active();
             
-            //턴 진행중
-
+            foreach (Monster monster in activeMonsters)
+                monster.Active();
+            
+            if (!isBossDestroyed)
+                monsterSpawnManager.SpawnCheck(spawnTurn);
+            
             spawnTurn++;
             yield return waitForSeconds;
+            //N초 동안 플레이어 자유 행동 가능
         }
     }
 }
