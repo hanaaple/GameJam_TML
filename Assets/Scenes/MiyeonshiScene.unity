@@ -222,7 +222,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 58, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &635033435
 MonoBehaviour:
@@ -475,7 +475,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 364, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1328020025
 MonoBehaviour:
@@ -741,6 +741,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogMangerPrefab: {fileID: 600958791428787756, guid: 8d86f3b1885256b4894bfa65613473cb,
     type: 3}
+  image: {fileID: 1227246864}
+  dialogBox: {fileID: 1997058899}
+  endTalkCursor: {fileID: 1387825906}
 --- !u!4 &1736961745
 Transform:
   m_ObjectHideFlags: 0
@@ -852,9 +855,9 @@ MonoBehaviour:
     m_Bottom: 40
   m_ChildAlignment: 0
   m_Spacing: 0
-  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
