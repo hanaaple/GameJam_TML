@@ -1,22 +1,19 @@
 fileFormatVersion: 2
-guid: a8c5c4b84045e90459117b0d6cd3addc
+guid: 374c0411f29f97f4e8a9d6399fe4d209
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4703206753733392279
-    second: Player_AttackFront_Sheet_0
+      213: 5569328903943776989
+    second: FX_NormalAttack_0
   - first:
-      213: 3538959519946544970
-    second: Player_AttackFront_Sheet_1
+      213: 1080719257662301466
+    second: FX_NormalAttack_1
   - first:
-      213: -5858117276806921026
-    second: Player_AttackFront_Sheet_2
+      213: -914962399433476300
+    second: FX_NormalAttack_2
   - first:
-      213: 8996731636988115679
-    second: Player_AttackFront_Sheet_3
-  - first:
-      213: -1178858698356659678
-    second: Player_AttackFront_Sheet_4
+      213: -4762185436824182192
+    second: FX_NormalAttack_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -114,13 +111,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_AttackFront_Sheet_0
+      name: FX_NormalAttack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 128
-        height: 128
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7973f75bf95254140800000000000000
-      internalID: 4703206753733392279
+      spriteID: dda62ec612b3a4d40800000000000000
+      internalID: 5569328903943776989
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_AttackFront_Sheet_1
+      name: FX_NormalAttack_1
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 128
-        height: 128
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4796e4eee8ec1130800000000000000
-      internalID: 3538959519946544970
+      spriteID: a15a2ee507c7ffe00800000000000000
+      internalID: 1080719257662301466
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_AttackFront_Sheet_2
+      name: FX_NormalAttack_2
       rect:
         serializedVersion: 2
         x: 256
         y: 0
         width: 128
-        height: 128
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,20 +167,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb44857df59c3bea0800000000000000
-      internalID: -5858117276806921026
+      spriteID: 437bdee9b866d43f0800000000000000
+      internalID: -914962399433476300
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_AttackFront_Sheet_3
+      name: FX_NormalAttack_3
       rect:
         serializedVersion: 2
         x: 384
         y: 0
         width: 128
-        height: 128
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,29 +188,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fdaf132d1cfcadc70800000000000000
-      internalID: 8996731636988115679
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_AttackFront_Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 22a621c724ad3afe0800000000000000
-      internalID: -1178858698356659678
+      spriteID: 0526e8b839159edb0800000000000000
+      internalID: -4762185436824182192
       vertices: []
       indices: 
       edges: []

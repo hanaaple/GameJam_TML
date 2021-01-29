@@ -53,9 +53,11 @@ public class MonsterSpawnManager: MonoBehaviour
     public void SpawnCheck(int turn)
     {
         if (turn == 2)
-            ActiveMonster(0, Type.idle);
-        
-        
+        {
+            //ActiveMonster(0, Type.medium);
+            ActiveMonster(3, Type.boss);
+        }
+
         if (turn == 1)
         {
             //SpawnPosition[0], [1], [2] 잡몹 소환

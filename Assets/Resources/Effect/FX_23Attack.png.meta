@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: 228e0a45a1ac6c946a13bc11bc80388b
+guid: 34dd163c89e2c054498f0a34b909e71a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8677467678903615709
-    second: Player_AttackSide_Sheet_0
+      213: 3463062703495757882
+    second: FX_23Attack_0
   - first:
-      213: 4886446570979847948
-    second: Player_AttackSide_Sheet_1
+      213: 3708335959632968014
+    second: FX_23Attack_1
   - first:
-      213: -4410847924645810184
-    second: Player_AttackSide_Sheet_2
+      213: -4082341889361813350
+    second: FX_23Attack_2
   - first:
-      213: -9179840549271436985
-    second: Player_AttackSide_Sheet_3
+      213: -515842341994139511
+    second: FX_23Attack_3
+  - first:
+      213: 151232472893178151
+    second: FX_23Attack_4
+  - first:
+      213: 6447040894062536314
+    second: FX_23Attack_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_AttackSide_Sheet_0
+      name: FX_23Attack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 256
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,41 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd0cbf6f0ee8c6870800000000000000
-      internalID: 8677467678903615709
+      spriteID: a30c4c44e254f0030800000000000000
+      internalID: 3463062703495757882
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_AttackSide_Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c0fed2d444520d340800000000000000
-      internalID: 4886446570979847948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_AttackSide_Sheet_2
+      name: FX_23Attack_1
       rect:
         serializedVersion: 2
         x: 256
         y: 0
-        width: 128
-        height: 128
+        width: 256
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ffa735ae2589c2c0800000000000000
-      internalID: -4410847924645810184
+      spriteID: e49fabd58e7a67330800000000000000
+      internalID: 3708335959632968014
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_AttackSide_Sheet_3
+      name: FX_23Attack_2
       rect:
         serializedVersion: 2
-        x: 384
+        x: 512
         y: 0
-        width: 128
-        height: 128
+        width: 256
+        height: 384
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,8 +173,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74103f548a7aa9080800000000000000
-      internalID: -9179840549271436985
+      spriteID: a9064e84eab9857c0800000000000000
+      internalID: -4082341889361813350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX_23Attack_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 980755d7f1c57d8f0800000000000000
+      internalID: -515842341994139511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX_23Attack_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7214d410229491200800000000000000
+      internalID: 151232472893178151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX_23Attack_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 384
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a76a307098d787950800000000000000
+      internalID: 6447040894062536314
       vertices: []
       indices: 
       edges: []
