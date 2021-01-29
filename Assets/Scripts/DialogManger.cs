@@ -40,7 +40,10 @@ public class Dialogue
 
 public class DialogManger : MonoBehaviour
 {
+
     private Text dialogContextText;
+    public GameObject backgroundGO;
+    public Image background;
     public GameObject imageGO;
     private Image image;
     public GameObject dialogBox; // for active setting
@@ -59,22 +62,25 @@ public class DialogManger : MonoBehaviour
 
     void Start()
     {
-        imageGO.SetActive(true);
-        dialogBox.SetActive(true);
-        endTalkCursor.SetActive(true);
+        showDialogPanel(true);
 
         // unity get gameobject and component  
         // dialogBox = GameObject.Find("DialogBox");
         // EndTalkCursor = GameObject.Find("EndTalkCursor");
+        background = backgroundGO.GetComponent<Image>();
         image = imageGO.GetComponent<Image>();
         talker = GameObject.Find("Talker").GetComponent<Text>();
         dialogText = GameObject.Find("DialogText").GetComponent<Text>();
+
+        background.sprite = dialogContent.backgroundImg;
 
         // inital setting for update method
         dialogGenerator = ShowNextDialog("main");
         availableFlow = new List<Option>();
         availableFlow.Add(new Option(KeyCode.Space, "main"));
         lastStory = "main";
+
+        dialogGenerator.MoveNext();
     }
     void Update()
     {
@@ -103,9 +109,7 @@ public class DialogManger : MonoBehaviour
                 else // 대화 끝
                 {
                     // 숨김
-                    imageGO.SetActive(false);
-                    dialogBox.SetActive(false);
-                    endTalkCursor.SetActive(false);
+                    showDialogPanel(false);
 
                     Destroy(this.gameObject);
 
@@ -140,5 +144,13 @@ public class DialogManger : MonoBehaviour
             yield return new WaitForSeconds(1.0f / CHAR_PER_SECOND);
         }
         endTalkCursor.SetActive(true);
+    }
+
+    void showDialogPanel(bool b)
+    {
+        backgroundGO.SetActive(b);
+        imageGO.SetActive(b);
+        dialogBox.SetActive(b);
+        endTalkCursor.SetActive(b);
     }
 }

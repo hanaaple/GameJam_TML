@@ -8,7 +8,7 @@ public class ChoosingCokeDialog : DialogContent
     public ChoosingCokeDialog()
     {
         this.context = "코카콜라 고르는 장면";
-        this.backgroundImg = Resources.Load<Sprite>("");
+        this.backgroundImg = Resources.Load<Sprite>("story/Background_Store");
 
         Sprite[] all = Resources.LoadAll<Sprite>("story/chibok_story_Sheet_coke");
         Sprite smileImg = all[1];

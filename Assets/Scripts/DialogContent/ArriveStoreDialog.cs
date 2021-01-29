@@ -7,7 +7,7 @@ public class ArriveStoreDialog : DialogContent
     public ArriveStoreDialog()
     {
         this.context = "편의점에 막 도착한 치복이와 주인공";
-        this.backgroundImg = Resources.Load<Sprite>("");
+        this.backgroundImg = Resources.Load<Sprite>("story/Background_Store");
 
         Sprite[] all = Resources.LoadAll<Sprite>("story/chibok_story_Sheet_coke");
         Sprite smileImg = all[1];

@@ -7,6 +7,7 @@ public class DialogCreator : MonoBehaviour
 
     [SerializeField] private GameObject DialogMangerPrefab;
 
+    [SerializeField] private GameObject background;
     [SerializeField] private GameObject image;
     [SerializeField] private GameObject dialogBox; // for active setting
     [SerializeField] private GameObject endTalkCursor;
@@ -14,6 +15,7 @@ public class DialogCreator : MonoBehaviour
     private void Awake()
     {
         DialogManger dm = Instantiate(DialogMangerPrefab).GetComponent<DialogManger>();
+        dm.backgroundGO = background;
         dm.imageGO = image;
         dm.dialogBox = dialogBox;
         dm.endTalkCursor = endTalkCursor;
@@ -23,6 +25,7 @@ public class DialogCreator : MonoBehaviour
     public void Create(string dialogName)
     {
         DialogManger dm = Instantiate(DialogMangerPrefab).GetComponent<DialogManger>();
+        dm.backgroundGO = background;
         dm.imageGO = image;
         dm.dialogBox = dialogBox;
         dm.endTalkCursor = endTalkCursor;

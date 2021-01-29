@@ -7,7 +7,7 @@ public class LetBuyCokeDialog : DialogContent
     public LetBuyCokeDialog()
     {
         this.context = "콜라사러 가자고 설득하는 장면";
-        this.backgroundImg = Resources.Load<Sprite>("");
+        this.backgroundImg = Resources.Load<Sprite>("story/Background_ChibokHouse");
 
         Sprite[] all = Resources.LoadAll<Sprite>("story/chibok_story_Sheet_coke");
         Sprite smileImg = all[1];

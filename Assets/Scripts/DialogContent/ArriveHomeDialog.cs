@@ -7,7 +7,7 @@ public class ArriveHomeDialog : DialogContent
     public ArriveHomeDialog()
     {
         this.context = "주인공이 치복이 집에 도착한 장면";
-        this.backgroundImg = Resources.Load<Sprite>("");
+        this.backgroundImg = Resources.Load<Sprite>("story/Background_ChibokHouse");
 
         Sprite[] all = Resources.LoadAll<Sprite>("story/chibok_story_Sheet_coke");
         Sprite smileImg = all[1];

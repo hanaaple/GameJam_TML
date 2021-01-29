@@ -7,7 +7,7 @@ public class CounterDialog : DialogContent
     public CounterDialog()
     {
         this.context = "계산대";
-        this.backgroundImg = Resources.Load<Sprite>("");
+        this.backgroundImg = Resources.Load<Sprite>("story/Background_Store");
 
         Sprite[] all = Resources.LoadAll<Sprite>("story/chibok_story_Sheet_coke");
         Sprite smileImg = all[1];
