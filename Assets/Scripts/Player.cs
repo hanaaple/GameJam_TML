@@ -50,7 +50,7 @@ public class Player : Common
         //anim.SetTrigger("isHit");
         if(playerStat.curHp <= 0)
         {
-            Debug.Log("플레이어 맞음");
+            Debug.Log("플레이어 사망");
             // 사망
         }
     }

@@ -22,10 +22,10 @@ public class Chibok : Common
 
     public override void ReceiveDamage(int Damage)
     {
-        gameManager.isBattleMode = false;
-        Animator anim = gameObject.GetComponent<Animator>();
+        //gameManager.isBattleMode = false;
+        //Animator anim = gameObject.GetComponent<Animator>();
         //방향에 따라
-        anim.SetTrigger("");
+        //anim.SetTrigger("");
         
         
         

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 //모든 몬스터의 상위 클래스
@@ -56,9 +58,8 @@ public class Monster : Common
                     StrongAttack();
             }
         }
-        
-        if(!isTired)
-            Move(new Vector2Int((int)player.transform.position.x, (int)player.transform.position.y));
+        if (!isTired)
+            Move(new Vector2Int((int) player.transform.position.x, (int) player.transform.position.y));
     }
 
     IEnumerator ani(float time, Animator anim)
@@ -78,10 +79,10 @@ public class Monster : Common
     private void RayAttack(RaycastHit2D[] hits)
     {
         Animator anim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
-        anim.SetBool("isAttack", true);
-        anim.SetTrigger("Attack");
+        //anim.SetBool("isAttack", true);
+        //anim.SetTrigger("Attack");
         //공격에 따라 시간 다르게 표시
-        StartCoroutine(ani(0.6f, anim));
+        //StartCoroutine(ani(0.6f, anim));
         foreach (RaycastHit2D hit in hits)
         {
             //Debug.Log(hit.transform.name);
@@ -118,9 +119,9 @@ public class Monster : Common
         Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(3f, 1f, 1f);
-        
+        List<int> hitCounts = new List<int>();
         int layerMask = (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Chibok"));
-
+        
         //1번 모든 방향으로 체크
         //2번 있다면 그 방향으로 공격
         RaycastHit2D[] hits;
@@ -128,52 +129,62 @@ public class Monster : Common
         attackRange.localPosition = Vector3.up;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            //히트된 개수만큼 값을 저장 가장 큰 개수의 위치에서 RayAttack하도록 변경해야됨
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("위");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         //하
         attackRange.localPosition = Vector3.down;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.down, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            //Debug.Log("아래");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
         //좌
         attackRange.localPosition = Vector3.left;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.left, 0f,
             layerMask);
-        if (hits.Length != 0)
-        {
-            pivotTransform.gameObject.SetActive(true);
-            // Debug.Log("왼쪽");
-            RayAttack(hits);
-            return;
-        }
+        hitCounts.Add(hits.Length);
 
         //우
         attackRange.localPosition = Vector3.right;
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.right, 0f,
             layerMask);
-        if (hits.Length != 0)
+        hitCounts.Add(hits.Length);
+        if (hitCounts.Max() == 0)
+        {
+            pivotTransform.gameObject.SetActive(false);
+            return;
+        }
+        attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+        
+        Debug.Log(hitCounts.Max());
+        Debug.Log(hitCounts.IndexOf(hitCounts.Max()));
+        switch (hitCounts.IndexOf(hitCounts.Max()))
+        {
+            case 0:
+                attackRange.localPosition = Vector3.up;
+                break;
+            case 1:
+                attackRange.localPosition = Vector3.down;
+                break;
+            case 2:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.left;
+                break;
+            case 3:
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+                attackRange.localPosition = Vector3.right;
+                break;
+        }
+        hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0, Vector3.up, 0f,
+            layerMask);
+        Debug.Log(hits.Length);
+        if (hits != null)
         {
             pivotTransform.gameObject.SetActive(true);
             // Debug.Log("오른쪽");
             RayAttack(hits);
             return;
         }
-        pivotTransform.gameObject.SetActive(false);
         
         // 왜 있는거지
         // moveManager.PathFinding(transform,
@@ -189,7 +200,6 @@ public class Monster : Common
     void RangeAttack()
     {
         //Debug.Log("중간 몬스터 공격");
-        
         Transform pivotTransform = transform.GetChild(0).transform;
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(1f, 3f, 1f);
