@@ -64,9 +64,9 @@ public class DialogManger : MonoBehaviour
         endTalkCursor.SetActive(true);
 
         // unity get gameobject and component  
-        // image = GameObject.Find("DialogImage").GetComponent<Image>();
         // dialogBox = GameObject.Find("DialogBox");
         // EndTalkCursor = GameObject.Find("EndTalkCursor");
+        image = imageGO.GetComponent<Image>();
         talker = GameObject.Find("Talker").GetComponent<Text>();
         dialogText = GameObject.Find("DialogText").GetComponent<Text>();
 

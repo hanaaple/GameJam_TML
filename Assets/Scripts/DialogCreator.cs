@@ -13,8 +13,11 @@ public class DialogCreator : MonoBehaviour
 
     private void Awake()
     {
-        DialogManger dm1 = Instantiate(DialogMangerPrefab).GetComponent<DialogManger>();
-        dm1.dialogContent = new ArriveStoreDialog();
+        DialogManger dm = Instantiate(DialogMangerPrefab).GetComponent<DialogManger>();
+        dm.imageGO = image;
+        dm.dialogBox = dialogBox;
+        dm.endTalkCursor = endTalkCursor;
+        dm.dialogContent = new ArriveStoreDialog();
     }
 
     public void Create(string dialogName)
