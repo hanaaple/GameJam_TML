@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c14c502ddd49219ac1d8c9c5905220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSpawn: 1
+  isSpawn: 0
   text: {fileID: 1727972527}
   N: 2
   chibok: {fileID: 1722158999}
@@ -1268,6 +1268,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\uCE58\uBCF5\uC774"
       objectReference: {fileID: 0}
+    - target: {fileID: 4805286643027604379, guid: 83dd1b60514ed71479520281aff92f56,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5833903688760018945, guid: 83dd1b60514ed71479520281aff92f56,
         type: 3}
       propertyPath: m_Size.x
@@ -1671,7 +1676,7 @@ PrefabInstance:
     - target: {fileID: 8657648177520849396, guid: 1baac0f4a0b6abb4c8c4555866e50337,
         type: 3}
       propertyPath: m_Name
-      value: "\uB514\uBC84\uADF8\uC6A9 \uD50C\uB808\uC774\uC5B4"
+      value: "\uD50C\uB808\uC774\uC5B4"
       objectReference: {fileID: 0}
     - target: {fileID: 8657648177520849396, guid: 1baac0f4a0b6abb4c8c4555866e50337,
         type: 3}

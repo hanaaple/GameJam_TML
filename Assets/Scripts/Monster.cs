@@ -74,6 +74,7 @@ public class Monster : Common
         anim.SetBool("isAttack", false);
     }
     
+    //매개변수로 시간 줘서 하자
     private void RayAttack(RaycastHit2D[] hits)
     {
         Animator anim = transform.GetChild(0).GetChild(0).GetComponent<Animator>();

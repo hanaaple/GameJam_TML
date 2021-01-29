@@ -22,9 +22,15 @@ public class Chibok : Common
 
     public override void ReceiveDamage(int Damage)
     {
+        gameManager.isBattleMode = false;
+        Animator anim = gameObject.GetComponent<Animator>();
+        //방향에 따라
+        anim.SetTrigger("");
+        
+        
+        
         Debug.Log("치복이 사망");
     }
-    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Convenient Store"))

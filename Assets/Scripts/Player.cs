@@ -10,7 +10,7 @@ public class Player : Common
     public Stat playerStat;
     internal bool isTired;
     private bool isRange;
-    private Vector3 moveVec;  //처음 값 설정해야될듯?
+    private Vector3 moveVec = Vector3.down;
     private Animator anim;
 
     public void InitializePlayer()
@@ -47,6 +47,7 @@ public class Player : Common
     public override void ReceiveDamage(int Damage)
     {
         playerStat.curHp -= Damage;
+        //anim.SetTrigger("isHit");
         if(playerStat.curHp <= 0)
         {
             Debug.Log("플레이어 맞음");
@@ -66,10 +67,20 @@ public class Player : Common
 
             //동시 입력 방지
             if (hDown)
+            {
                 isHorizontalMove = true;
+                anim.SetBool("isHorizontal", true);
+                anim.SetInteger("Vertical", 0);
+                if (h == -1) gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                else gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
             else if (vDown)
+            {
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
                 isHorizontalMove = false;
-
+                anim.SetBool("isHorizontal", false);
+                anim.SetInteger("Vertical", (int)v);
+            }
             moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
             //transform.position = Vector2.MoveTowards(transform.position,  transform.position + moveVec, 3f);
             //애니메이션 추가
@@ -110,9 +121,20 @@ public class Player : Common
             {
                 //Debug.Log("누른상태로 움직였다");
                 if (hDown)
+                {
                     isHorizontalMove = true;
+                    anim.SetBool("isHorizontal", true);
+                    anim.SetInteger("Vertical", 0);
+                    if (h == -1) gameObject.GetComponent<SpriteRenderer>().flipX = false;
+                    else gameObject.GetComponent<SpriteRenderer>().flipX = true;
+                }
                 else if (vDown)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX = true;
                     isHorizontalMove = false;
+                    anim.SetBool("isHorizontal", false);
+                    anim.SetInteger("Vertical", (int)v);
+                }
                 moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
                 //회전
                 Transform pivotTransform = transform.GetChild(0).transform;
@@ -133,26 +155,34 @@ public class Player : Common
                 attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
             }
             RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position+ moveVec, attackRange.localScale,pivotTransform.rotation.z, moveVec, 0f, layerMask);
+
             anim.SetBool("isAttack", true);
-            if(moveVec.y == -1){
+            if (moveVec.y == -1)
+            {
                 //앞옆뒤에 따라 초 다르게 설정
                 anim.SetTrigger("isAttackFront");
                 StartCoroutine(ani(0.417f));
-                
-            }else if (moveVec.y == 1)
+
+            }
+            else if (moveVec.y == 1)
             {
-             //뒤
-                
-            }else if (moveVec.x == 1 || moveVec.x == -1)
+                //뒤
+                anim.SetTrigger("isAttackBack");
+                StartCoroutine(ani(0.333f));
+
+            }
+            else if (moveVec.x != 0)
             {
                 anim.SetTrigger("isAttackSide");
-                StartCoroutine(ani(0.333f));
+                StartCoroutine(ani(0.417f));
             }
+            anim.SetBool("isAttack", true);
+
             foreach (RaycastHit2D hit in hits)
             {
                 hit.transform.GetComponent<Common>().ReceiveDamage(playerStat.damage);
             }
-                
+
             transform.GetChild(0).gameObject.SetActive(false);
         }
     }
