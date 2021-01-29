@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Option
@@ -40,16 +41,15 @@ public class Dialogue
 public class DialogManger : MonoBehaviour
 {
     private Text dialogContextText;
+    public GameObject imageGO;
     private Image image;
-    private GameObject dialogBox; // for active setting
+    public GameObject dialogBox; // for active setting
     private Text talker;
-
     private Text dialogText;
-    private GameObject EndTalkCursor;
+    public GameObject endTalkCursor;
 
-    public string dialogContext;
-    public Dictionary<string, Dialogue[]> dialogDic;
 
+    public DialogContent dialogContent;
 
     [SerializeField] private int CHAR_PER_SECOND = 14;
     private IEnumerator dialogGenerator;
@@ -57,15 +57,18 @@ public class DialogManger : MonoBehaviour
     private string lastStory;
     private Coroutine currentDialog = null;
 
-
     void Start()
     {
+        imageGO.SetActive(true);
+        dialogBox.SetActive(true);
+        endTalkCursor.SetActive(true);
+
         // unity get gameobject and component  
-        image = GameObject.Find("DialogImage").GetComponent<Image>();
-        dialogBox = GameObject.Find("DialogBox");
+        // image = GameObject.Find("DialogImage").GetComponent<Image>();
+        // dialogBox = GameObject.Find("DialogBox");
+        // EndTalkCursor = GameObject.Find("EndTalkCursor");
         talker = GameObject.Find("Talker").GetComponent<Text>();
         dialogText = GameObject.Find("DialogText").GetComponent<Text>();
-        EndTalkCursor = GameObject.Find("EndTalkCursor");
 
         // inital setting for update method
         dialogGenerator = ShowNextDialog("main");
@@ -99,8 +102,14 @@ public class DialogManger : MonoBehaviour
                 }
                 else // 대화 끝
                 {
-                    GameObject.Find("DialogImage").SetActive(false);
+                    // 숨김
+                    imageGO.SetActive(false);
                     dialogBox.SetActive(false);
+                    endTalkCursor.SetActive(false);
+
+                    Destroy(this.gameObject);
+
+                    // SceneManager.LoadScene("SampleScene")
                 }
             }
         }
@@ -108,7 +117,7 @@ public class DialogManger : MonoBehaviour
 
     IEnumerator<List<Option>> ShowNextDialog(string forkKey)
     {
-        foreach (Dialogue dialog in dialogDic[forkKey])
+        foreach (Dialogue dialog in dialogContent.dialogDic[forkKey])
         {
             if (currentDialog != null)
             {
@@ -124,13 +133,12 @@ public class DialogManger : MonoBehaviour
     IEnumerator appearText(string dialog)
     {
         dialogText.text = "";
-        EndTalkCursor.SetActive(false);
+        endTalkCursor.SetActive(false);
         foreach (char c in dialog)
         {
             dialogText.text += c;
             yield return new WaitForSeconds(1.0f / CHAR_PER_SECOND);
         }
-        EndTalkCursor.SetActive(true);
-
+        endTalkCursor.SetActive(true);
     }
 }
