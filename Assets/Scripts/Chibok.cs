@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+
 public class Chibok : Common
 {
     public Transform targetPosition;
-    
+
     public void InitializeChibok(MoveManager moveManager, GameManager gameManager)
     {
         this.gameManager = gameManager;
@@ -26,21 +26,21 @@ public class Chibok : Common
         Animator anim = gameObject.GetComponent<Animator>();
         //방향에 따라
         anim.SetTrigger("");
-        
-        
-        
+
+
+
         Debug.Log("치복이 사망");
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Convenient Store"))
         {
-            //gameManager.isBattleMode = false;
-            // foreach (Monster monster in gameManager.activeMonsters)
+            // 게임 종료
+            gameManager.isBattleMode = false;
+            // foreach (Monster monster in gameManager.activeMonsters) // gameManager 쪽에 있어야함
             // {
             //     monster.DestroyMonster();
             // }
-            //미연시 시작
         }
     }
 }

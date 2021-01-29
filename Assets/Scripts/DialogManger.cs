@@ -40,10 +40,11 @@ public class Dialogue
 
 public class DialogManger : MonoBehaviour
 {
+    public IEnumerator sceneController;
 
     private Text dialogContextText;
     public GameObject backgroundGO;
-    public Image background;
+    private Image background;
     public GameObject imageGO;
     private Image image;
     public GameObject dialogBox; // for active setting
@@ -110,9 +111,8 @@ public class DialogManger : MonoBehaviour
                 {
                     // 숨김
                     showDialogPanel(false);
-
+                    sceneController.MoveNext();
                     Destroy(this.gameObject);
-
                     // SceneManager.LoadScene("SampleScene")
                 }
             }
