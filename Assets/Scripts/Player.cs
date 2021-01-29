@@ -9,10 +9,13 @@ public class Player : Common
     private bool isHorizontalMove;
     public Stat playerStat;
     internal bool isTired;
-    
+    private bool isRange;
+    private Vector3 moveVec;  //처음 값 설정해야될듯?
+    private Animator anim;
 
     public void InitializePlayer()
     {
+        anim = GetComponent<Animator>();
         playerStat = new Stat();
     }
     void Update()
@@ -46,6 +49,7 @@ public class Player : Common
         playerStat.curHp -= Damage;
         if(playerStat.curHp <= 0)
         {
+            Debug.Log("플레이어 맞음");
             // 사망
         }
     }
@@ -66,11 +70,30 @@ public class Player : Common
             else if (vDown)
                 isHorizontalMove = false;
 
-            Vector2 moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
-            transform.position = Vector2.MoveTowards(transform.position, (Vector2) transform.position + moveVec, 3f);
+            moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
+            //transform.position = Vector2.MoveTowards(transform.position,  transform.position + moveVec, 3f);
             //애니메이션 추가
+            StartCoroutine(asd(transform, transform.position + moveVec));
             isTired = true;
         }
+    }
+    IEnumerator asd(Transform trans, Vector3 target)
+    {
+        float count = 0;
+        Vector3 wasPos = trans.position;
+        while (true)
+        {
+            count += Time.deltaTime * 5f;
+            trans.position = Vector3.Lerp(wasPos, target, count);
+            if (count >= 1)
+            {
+                trans.position = target;
+                break;
+            }
+            
+            yield return null;
+        }
+        
     }
     
     IEnumerator ShowAttackRange(KeyCode keyCode)
@@ -90,29 +113,70 @@ public class Player : Common
                     isHorizontalMove = true;
                 else if (vDown)
                     isHorizontalMove = false;
-                Vector2 moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
+                moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
                 //회전
                 Transform pivotTransform = transform.GetChild(0).transform;
                 pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
                     Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z);
-            }else if(Input.GetKeyUp(keyCode))
-            {
-                //공격 판정이 끝날때까지
-                //while (true)
-                {
-                    
-                }
-                transform.GetChild(0).gameObject.SetActive(false);
             }
             yield return waitForFixedUpdate;
         }
+        if(Input.GetKeyUp(keyCode))
+        {
+            int layerMask = (1 << LayerMask.NameToLayer("Monster"));
+
+            Transform attackRange = transform.GetChild(0).GetChild(0).transform;
+            Transform pivotTransform = transform.GetChild(0).transform;  // Z축 방향 전환    시계방향으로 0 -90 -180 90
+            //쏘기
+            if (moveVec.y == 0)
+            {
+                attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
+            }
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position+ moveVec, attackRange.localScale,pivotTransform.rotation.z, moveVec, 0f, layerMask);
+            anim.SetBool("isAttack", true);
+            if(moveVec.y == -1){
+                //앞옆뒤에 따라 초 다르게 설정
+                anim.SetTrigger("isAttackFront");
+                StartCoroutine(ani(0.417f));
+                
+            }else if (moveVec.y == 1)
+            {
+             //뒤
+                
+            }else if (moveVec.x == 1 || moveVec.x == -1)
+            {
+                anim.SetTrigger("isAttackSide");
+                StartCoroutine(ani(0.333f));
+            }
+            foreach (RaycastHit2D hit in hits)
+            {
+                hit.transform.GetComponent<Common>().ReceiveDamage(playerStat.damage);
+            }
+                
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
+
+    IEnumerator ani(float time)
+    {
+        WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+        float curTime = 0;
+        while(curTime < time)
+        {
+            curTime += Time.fixedDeltaTime;
+            yield return waitForFixedUpdate;            
+        }
+
+        anim.SetBool("isAttack", false);
+    }
+    
     
     // 기본 공격 - z
     void Attack()
     {
         Debug.Log("z 누름");
         isTired = true;
+        isRange = true;
         transform.GetChild(0).gameObject.SetActive(true);
         Transform attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localPosition = Vector3.up;

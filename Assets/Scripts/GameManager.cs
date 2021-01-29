@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isSpawn;
+    public Text text;
     internal List<Monster> activeMonsters = new List<Monster>();
     [SerializeField] private float N;
 
@@ -14,6 +18,7 @@ public class GameManager : MonoBehaviour
     
     //오류 방지용도
     internal int StageIndex = 1;
+    private float behaviorTime;
     internal int spawnTurn;
     internal bool isBattleMode = true; 
     public bool isBossDestroyed { get; internal set; }
@@ -31,6 +36,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(StageOneRoutine());
     }
 
+    private void Update()
+    {
+        behaviorTime -= Time.deltaTime;
+        if (behaviorTime <= 0) behaviorTime = 0;
+        text.text = behaviorTime.ToString();
+    }
+
     IEnumerator StageOneRoutine()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(N);
@@ -39,14 +51,17 @@ public class GameManager : MonoBehaviour
         // 1스테이지   전투시간동안 반복
         while (isBattleMode)
         {
-            Debug.Log($"{spawnTurn}번 째 턴");
+            behaviorTime = N;
+            //Debug.Log($"{spawnTurn}번 째 턴");
             player.isTired = false;
             chibok.Active();
             
             foreach (Monster monster in activeMonsters)
                 monster.Active();
             
-            monsterSpawnManager.SpawnCheck(spawnTurn);
+            if(isSpawn)
+                monsterSpawnManager.SpawnCheck(2);
+            isSpawn = false;
             
             spawnTurn++;
             yield return waitForSeconds;

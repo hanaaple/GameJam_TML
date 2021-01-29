@@ -29,12 +29,11 @@ public class Chibok : Common
     {
         if (other.CompareTag("Convenient Store"))
         {
-            gameManager.isBattleMode = false;
-            CancelInvoke("Active");
-            foreach (Monster monster in gameManager.activeMonsters)
-            {
-                monster.DestroyMonster();
-            }
+            //gameManager.isBattleMode = false;
+            // foreach (Monster monster in gameManager.activeMonsters)
+            // {
+            //     monster.DestroyMonster();
+            // }
             //미연시 시작
         }
     }

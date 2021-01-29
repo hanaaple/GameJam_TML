@@ -163,15 +163,34 @@ public class MoveManager : MonoBehaviour
     
     //해당 칸으로 이동하는 함수
     public void Move(Transform startPos, Node tagetNode){
-        startPos.position = Vector2.MoveTowards(startPos.position, new Vector2(tagetNode.x, tagetNode.y), 1f);
+        //startPos.position = Vector3.MoveTowards(startPos.position, new Vector2(tagetNode.x, tagetNode.y), 1f);
+        StartCoroutine(asd(startPos, new Vector3(tagetNode.x, tagetNode.y)));
         //애니메이션 추가
     }
 
+    IEnumerator asd(Transform trans, Vector3 target)
+    {
+        float count = 0;
+        Vector3 wasPos = trans.position;
+        while (true)
+        {
+            count += Time.deltaTime * 5f;
+            trans.position = Vector3.Lerp(wasPos, target, count);
+            if (count >= 1)
+            {
+                trans.position = target;
+                break;
+            }
+            
+            yield return null;
+        }
+        
+    }
     void OnDrawGizmos()
     {
-        if (FinalNodeList.Count != 0)
-            for (int i = 1; i < FinalNodeList.Count - 1; i++)
-                Gizmos.DrawLine(new Vector2(FinalNodeList[i].x, FinalNodeList[i].y),
-                    new Vector2(FinalNodeList[i + 1].x, FinalNodeList[i + 1].y));
+        // if (FinalNodeList.Count != 0)
+        //     for (int i = 1; i < FinalNodeList.Count - 1; i++)
+        //         Gizmos.DrawLine(new Vector2(FinalNodeList[i].x, FinalNodeList[i].y),
+        //             new Vector2(FinalNodeList[i + 1].x, FinalNodeList[i + 1].y));
     }
 }

@@ -14,6 +14,7 @@ public abstract class Common : MonoBehaviour
         //체크 후
         moveManager.PathFinding(transform, targetPosition);
         //이동
+        if (moveManager.FinalNodeList.Count == 1) return;
         moveManager.Move(transform, moveManager.FinalNodeList[1]);
     }
 }

@@ -13,7 +13,7 @@ public class MonsterSpawnManager: MonoBehaviour
     private MoveManager moveManager;
     
     //0~3번까지 순서대로 잡몹, 중간몹, 큰몹, 보스몹
-    private enum Type { idle, medium, huge, boss }
+    public enum Type { idle, medium, huge, boss }
     
     void Awake()
     {
@@ -47,11 +47,15 @@ public class MonsterSpawnManager: MonoBehaviour
         //몬스터 초기화 및 동작
         monster.transform.position = SpawnPosition[spawnIndex].position;
         monster.GetComponent<Monster>().InitializeMonster(player, gameManager, moveManager);
-        monster.GetComponent<Monster>().ActiveMonster();
+        monster.GetComponent<Monster>().ActiveMonster(monsterType);
     }
 
     public void SpawnCheck(int turn)
     {
+        if (turn == 2)
+            ActiveMonster(0, Type.idle);
+        
+        
         if (turn == 1)
         {
             //SpawnPosition[0], [1], [2] 잡몹 소환
@@ -73,7 +77,7 @@ public class MonsterSpawnManager: MonoBehaviour
             else
             {
                 //SpawnPosition[1] 잡몹 소환
-                ActiveMonster(1, Type.idle);
+                //ActiveMonster(1, Type.idle);
             }
         }
 
