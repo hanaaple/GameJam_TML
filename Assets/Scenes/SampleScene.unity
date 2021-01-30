@@ -150,9 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087f0adcbc4e45e49b52dcaaa6ef1160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introPrefab: {fileID: 7850408138178358663, guid: 7221bb203ba66f34ab25f4067fdaae84,
+  introPrefab: {fileID: 7973838510680604322, guid: 7221bb203ba66f34ab25f4067fdaae84,
     type: 3}
-  howToPlayPrefab: {fileID: 6398354356206601126, guid: d7ef0b23ef2c60b47b62f3acd05a4395,
+  howToPlayPrefab: {fileID: 2587860075979020714, guid: d7ef0b23ef2c60b47b62f3acd05a4395,
     type: 3}
   dialogCreator: {fileID: 2061010038}
   gameManager: {fileID: 440593040}
