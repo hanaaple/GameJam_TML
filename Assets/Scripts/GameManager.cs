@@ -57,8 +57,7 @@ public class GameManager : MonoBehaviour
             player.isTired = false;
             chibok.Active();
             
-            foreach (Monster monster in activeMonsters)
-                monster.Active();
+                Invoke("asd", 0.3f);
 
             if (isSpawn)
             {
@@ -74,6 +73,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void asd(){
+        foreach (Monster monster in activeMonsters)
+            monster.Active();
+        }
 
     IEnumerator StageTwoRoutine()
     {

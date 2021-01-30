@@ -1742,7 +1742,7 @@ GameObject:
   - component: {fileID: 1427560896}
   - component: {fileID: 1427560899}
   - component: {fileID: 1427560898}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: "\uB300\uCDA9 \uC9D1"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2024,7 +2024,7 @@ GameObject:
   - component: {fileID: 1632901216}
   - component: {fileID: 1632901218}
   - component: {fileID: 1632901217}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2913,7 +2913,7 @@ PrefabInstance:
         type: 3}
       propertyPath: End
       value: 
-      objectReference: {fileID: 984693851}
+      objectReference: {fileID: 1446699143}
     - target: {fileID: 3294790393023370041, guid: 83dd1b60514ed71479520281aff92f56,
         type: 3}
       propertyPath: Win
@@ -2928,7 +2928,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targetPosition
       value: 
-      objectReference: {fileID: 1716256731}
+      objectReference: {fileID: 133477808}
     - target: {fileID: 3814640089151331112, guid: 83dd1b60514ed71479520281aff92f56,
         type: 3}
       propertyPath: m_Name
