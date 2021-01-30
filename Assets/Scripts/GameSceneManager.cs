@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameSceneManager : MonoBehaviour
 {
+    [SerializeField] private GameObject introPrefab;
+    [SerializeField] private GameObject howToPlayPrefab;
     [SerializeField] private DialogCreator dialogCreator;
     [SerializeField] private GameManager gameManager;
+
 
     private IEnumerator sceneController;
     private void Awake()
@@ -20,7 +23,10 @@ public class GameSceneManager : MonoBehaviour
     IEnumerator gotoNextScene()
     {
         // intro page
-        // yield return null;
+        GameObject intro = Instantiate(introPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Canvas").transform);
+        intro.transform.localPosition = Vector3.zero;
+        intro.GetComponent<Intro>().sceneController = sceneController;
+        yield return null;
 
         // story arrive home
         dialogCreator.Create("주인공이 치복이 집에 도착한 장면");
@@ -31,7 +37,10 @@ public class GameSceneManager : MonoBehaviour
         yield return null;
 
         // tutorial page
-        // yield return null;
+        GameObject howToPlay = Instantiate(howToPlayPrefab, Vector3.zero, Quaternion.identity, GameObject.Find("Canvas").transform);
+        howToPlay.transform.localPosition = Vector3.zero;
+        howToPlay.GetComponent<HowToPlay>().sceneController = sceneController;
+        yield return null;
 
         // stage 1
         gameManager.startGame(1);

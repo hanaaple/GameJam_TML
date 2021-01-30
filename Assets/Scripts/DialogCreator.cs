@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DialogCreator : MonoBehaviour
 {
-
     [SerializeField] private GameObject DialogMangerPrefab;
 
     [SerializeField] private GameObject background;
@@ -12,15 +11,13 @@ public class DialogCreator : MonoBehaviour
     [SerializeField] private GameObject dialogBox; // for active setting
     [SerializeField] private GameObject endTalkCursor;
 
-    private void Awake()
-    {
-        DialogManger dm = Instantiate(DialogMangerPrefab).GetComponent<DialogManger>();
-        dm.backgroundGO = background;
-        dm.imageGO = image;
-        dm.dialogBox = dialogBox;
-        dm.endTalkCursor = endTalkCursor;
-        dm.dialogContent = new ArriveStoreDialog();
-    }
+
+    public IEnumerator sceneController;
+
+    // private void Awake()
+    // {
+    //     Create("편의점에 막 도착한 치복이와 주인공");
+    // }
 
     public void Create(string dialogName)
     {
@@ -29,6 +26,7 @@ public class DialogCreator : MonoBehaviour
         dm.imageGO = image;
         dm.dialogBox = dialogBox;
         dm.endTalkCursor = endTalkCursor;
+        dm.sceneController = sceneController;
         switch (dialogName)
         {
             // 치복이 집
