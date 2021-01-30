@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }
+        sceneController.MoveNext();
     }
 
     void asd()
@@ -119,5 +120,6 @@ public class GameManager : MonoBehaviour
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }
+        sceneController.MoveNext();
     }
 }
