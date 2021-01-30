@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         behaviorTime -= Time.deltaTime;
         if (behaviorTime <= 0) behaviorTime = 0;
-        text.text = behaviorTime.ToString();
+        text.text = string.Format("{0:0.#}", behaviorTime);
     }
 
     IEnumerator StageOneRoutine()
