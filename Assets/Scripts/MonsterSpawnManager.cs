@@ -55,9 +55,7 @@ public class MonsterSpawnManager: MonoBehaviour
         if (turn == 2)
         {
             //ActiveMonster(0, Type.medium);
-            ActiveMonster(0, Type.idle);
-            ActiveMonster(1, Type.medium);
-            ActiveMonster(3, Type.boss);
+            ActiveMonster(3, Type.idle);
         }
 
         if (turn == 1)

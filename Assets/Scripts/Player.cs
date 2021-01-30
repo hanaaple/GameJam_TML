@@ -15,20 +15,18 @@ public class Player : Common
     private Transform pivotTransform;
     private Transform attackRange;
     public GameObject End;
-    private GameManager gameManager;
-    public void InitializePlayer(GameManager gameManager)
+    public void InitializePlayer()
     {
         attackRange = transform.GetChild(0).GetChild(0).transform;
         pivotTransform = transform.GetChild(0).transform;
         anim = GetComponent<Animator>();
         playerStat = new Stat();
         playerStat.curHp = playerStat.maxHp;
-        this.gameManager = gameManager;
     }
     void Update()
     {
         //움직임 체크하여 움직인다.
-        if (!isTired && gameManager.isBattleMode)
+        if (!isTired)
         {
             if (isAttack)
             {
