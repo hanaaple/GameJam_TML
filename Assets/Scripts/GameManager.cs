@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        player.InitializePlayer();
+        player.InitializePlayer(this);
         monsterSpawnManager.InitializeMonsterSpawnManager(this, targetPosition, moveManager);
         chibok.InitializeChibok(moveManager, this);
     }
@@ -59,9 +59,13 @@ public class GameManager : MonoBehaviour
             
             foreach (Monster monster in activeMonsters)
                 monster.Active();
-            
-            if(isSpawn)
-                monsterSpawnManager.SpawnCheck(2);
+
+            if (isSpawn)
+            {
+                monsterSpawnManager.SpawnCheck(spawnTurn);
+                //monsterSpawnManager.SpawnCheck(2);
+            }
+
             isSpawn = false;
             
             spawnTurn++;
