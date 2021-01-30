@@ -49,7 +49,7 @@ public class Player : Common
             }
             else
             {
-                if(!Input.GetButton("Fire1"))
+                if (!Input.GetButton("Fire1"))
                     Move();
             }
         }
@@ -58,14 +58,14 @@ public class Player : Common
     {
         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         float curTime = 0;
-        while(curTime < time)
+        while (curTime < time)
         {
             curTime += Time.fixedDeltaTime;
-            yield return waitForFixedUpdate;            
+            yield return waitForFixedUpdate;
         }
         anim.SetBool("isHit", false);
     }
-    
+
     public override void ReceiveDamage(int Damage)
     {
         playerStat.curHp -= Damage;
@@ -76,18 +76,18 @@ public class Player : Common
         else if (moveVec.y == 1)
         {
             anim.SetTrigger("HitBack");
-            }
+        }
         else if (moveVec.x != 0)
         {
             anim.SetTrigger("HitSide");
         }
         anim.SetBool("isHit", true);
         StartCoroutine(HitAni(0.1f));
-        
-        
-        
+
+
+
         Debug.Log($"플레이어 체력 : {playerStat.curHp}");
-        if(playerStat.curHp <= 0)
+        if (playerStat.curHp <= 0)
         {
             Invoke("PlayerDead", 0.1f);
         }
@@ -99,7 +99,7 @@ public class Player : Common
         gameManager.isBattleMode = false;
         Debug.Log("플레이어 사망");
     }
-    
+
     void Move()
     {
         bool hDown = Input.GetButtonDown("Horizontal");
@@ -146,12 +146,12 @@ public class Player : Common
                 trans.position = target;
                 break;
             }
-            
+
             yield return null;
         }
-        
+
     }
-    
+
     IEnumerator ShowAttackRange(KeyCode keyCode)
     {
         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
@@ -180,7 +180,7 @@ public class Player : Common
                     anim.SetBool("isHorizontal", false);
                     anim.SetInteger("Vertical", (int)v);
                 }
-                
+
                 moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
                 //회전
                 pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
@@ -188,13 +188,13 @@ public class Player : Common
             }
             yield return waitForFixedUpdate;
         }
-        if(Input.GetKeyUp(keyCode))
+        if (Input.GetKeyUp(keyCode))
         {
             if (!isAttack)
             {
                 isAttack = true;
             }
-            
+
             //Transform pivotTransform = transform.GetChild(0).transform;  // Z축 방향 전환    시계방향으로 0 -90 -180 90
             //쏘기
             if (moveVec.y == 0)
@@ -209,10 +209,10 @@ public class Player : Common
     {
         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         float curTime = 0;
-        while(curTime < time)
+        while (curTime < time)
         {
             curTime += Time.fixedDeltaTime;
-            yield return waitForFixedUpdate;            
+            yield return waitForFixedUpdate;
         }
 
         anim.SetBool("isAttack", false);
@@ -223,7 +223,7 @@ public class Player : Common
         isTired = true;
         isAttack = false;
         int layerMask = (1 << LayerMask.NameToLayer("Monster"));
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position+ moveVec, attackRange.localScale,pivotTransform.rotation.z, moveVec, 0f, layerMask);
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position + moveVec, attackRange.localScale, pivotTransform.rotation.z, moveVec, 0f, layerMask);
 
         anim.SetBool("isAttack", true);
         if (moveVec.y == -1)
@@ -231,14 +231,14 @@ public class Player : Common
             //앞옆뒤에 따라 초 다르게 설정
             anim.SetTrigger("isAttackFront");
             StartCoroutine(ani(0.417f));
-            
+
         }
         else if (moveVec.y == 1)
         {
             //뒤
             anim.SetTrigger("isAttackBack");
             StartCoroutine(ani(0.333f));
-            
+
         }
         else if (moveVec.x != 0)
         {
@@ -256,44 +256,44 @@ public class Player : Common
     void Attack()
     {
         //아닐 경우 보여주기
-            playerStat.damage = 2;
-            Debug.Log("z 누름");
-            isTired = true;
-            pivotTransform.gameObject.SetActive(true);
-            pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
-                Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z);
-            attackRange.localPosition = Vector3.up;
-            attackRange.localScale = new Vector3(3f, 1f, 1f);
-            StartCoroutine(ShowAttackRange(KeyCode.Z));
+        playerStat.damage = 2;
+        Debug.Log("z 누름");
+        isTired = true;
+        pivotTransform.gameObject.SetActive(true);
+        pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
+            Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z);
+        attackRange.localPosition = Vector3.up;
+        attackRange.localScale = new Vector3(3f, 1f, 1f);
+        StartCoroutine(ShowAttackRange(KeyCode.Z));
     }
 
 
     // 좀 쎈 공격 - x
     void StrongAttack()
     {
-            //아닐 경우 보여주기
-            playerStat.damage = 3;
-            Debug.Log("x 누름");
-            isTired = true;
-            pivotTransform.gameObject.SetActive(true);
-            attackRange.localPosition = new Vector3(0f, 1.5f);
-            attackRange.localScale = new Vector3(3f, 2f, 1f);
-            StartCoroutine(ShowAttackRange(KeyCode.X));
-        }
-    
+        //아닐 경우 보여주기
+        playerStat.damage = 3;
+        Debug.Log("x 누름");
+        isTired = true;
+        pivotTransform.gameObject.SetActive(true);
+        attackRange.localPosition = new Vector3(0f, 1.5f);
+        attackRange.localScale = new Vector3(3f, 2f, 1f);
+        StartCoroutine(ShowAttackRange(KeyCode.X));
+    }
+
 
     // 원거리 공격 - c
     void RangeAttack()
     {
-            //아닐 경우 보여주기
-            playerStat.damage = 3;
-            Debug.Log("c 누름");
-            isTired = true;
-            pivotTransform.gameObject.SetActive(true);
-            attackRange.localPosition = Vector3.up * 3f;
-            attackRange.localScale = new Vector3(1f, 5f, 1f);
-            StartCoroutine(ShowAttackRange(KeyCode.C));
-        
+        //아닐 경우 보여주기
+        playerStat.damage = 3;
+        Debug.Log("c 누름");
+        isTired = true;
+        pivotTransform.gameObject.SetActive(true);
+        attackRange.localPosition = Vector3.up * 3f;
+        attackRange.localScale = new Vector3(1f, 5f, 1f);
+        StartCoroutine(ShowAttackRange(KeyCode.C));
+
     }
 
     [System.Serializable]
@@ -302,6 +302,6 @@ public class Player : Common
         public int curHp;
         public int maxHp;
         public int damage;
-        
+
     }
 }

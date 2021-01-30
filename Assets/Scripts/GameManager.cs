@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public IEnumerator sceneController;
     public bool isSpawn;
     public Text text;
     internal List<Monster> activeMonsters = new List<Monster>();
@@ -16,12 +17,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform targetPosition;
     [SerializeField] private MonsterSpawnManager monsterSpawnManager;
     [SerializeField] private MoveManager moveManager;
-    
+
     //오류 방지용도
     internal int StageIndex = 1;
     private float behaviorTime;
     internal int spawnTurn;
-    internal bool isBattleMode = true; 
+    internal bool isBattleMode = false;
     public bool isBossDestroyed { get; internal set; }
 
     public void Awake()
@@ -31,10 +32,27 @@ public class GameManager : MonoBehaviour
         chibok.InitializeChibok(moveManager, this);
     }
 
-    public void Start()
+    // public void Start()
+    // {
+    //     isBattleMode = true;
+    //     StartCoroutine(StageOneRoutine());
+    // }
+
+    public void startGame(int stageIndex)
     {
+        // player.InitializePlayer(this);
+        // monsterSpawnManager.InitializeMonsterSpawnManager(this, targetPosition, moveManager);
+        // chibok.InitializeChibok(moveManager, this);
+
         isBattleMode = true;
-        StartCoroutine(StageOneRoutine());
+        if (stageIndex == 1)
+        {
+            StartCoroutine(StageOneRoutine());
+        }
+        else if (stageIndex == 2)
+        {
+            StartCoroutine(StageOneRoutine());
+        }
     }
 
     private void Update()
@@ -48,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(N);
         spawnTurn = 1;
-        
+
         // 1스테이지   전투시간동안 반복
         while (isBattleMode)
         {
@@ -56,8 +74,8 @@ public class GameManager : MonoBehaviour
             //Debug.Log($"{spawnTurn}번 째 턴");
             player.isTired = false;
             chibok.Active();
-            
-                Invoke("asd", 0.3f);
+
+            Invoke("asd", 0.3f);
 
             if (isSpawn)
             {
@@ -66,36 +84,37 @@ public class GameManager : MonoBehaviour
             }
 
             isSpawn = false;
-            
+
             spawnTurn++;
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }
     }
 
-    void asd(){
+    void asd()
+    {
         foreach (Monster monster in activeMonsters)
             monster.Active();
-        }
+    }
 
     IEnumerator StageTwoRoutine()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(N);
         spawnTurn = 1;
-        
+
         // 2스테이지   전투시간동안 반복
         while (isBattleMode)
         {
             Debug.Log("N초마다 말합니다.");
             player.isTired = false;
             chibok.Active();
-            
+
             foreach (Monster monster in activeMonsters)
                 monster.Active();
-            
+
             if (!isBossDestroyed)
                 monsterSpawnManager.SpawnCheck(spawnTurn);
-            
+
             spawnTurn++;
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
