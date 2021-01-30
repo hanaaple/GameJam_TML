@@ -7,7 +7,7 @@ public class HowToPlay : MonoBehaviour
     public IEnumerator sceneController;
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
             sceneController.MoveNext();
             Destroy(this.gameObject);
