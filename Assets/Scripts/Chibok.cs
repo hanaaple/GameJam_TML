@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- 
+using UnityEngine.UI;
+
 public class Chibok : Common
 {
     public Transform targetPosition;
     private Animator anim;
     private Vector3 moveVec;
     public GameObject End;
-    
+    public GameObject Win;
+    public bool Mode;
+    public Text text;
     public void InitializeChibok(MoveManager moveManager, GameManager gameManager)
     {
         this.gameManager = gameManager;
@@ -96,23 +99,42 @@ public class Chibok : Common
         Invoke("ChibokDead", 0.1f);
     }
 
+    public void thouch()
+    {
+        if (Mode)
+        {
+            text.text = "비무적모드";
+            Mode = false;
+            
+        }
+        else
+        {
+            text.text = "무적모드";
+            Mode = true;
+        }
+    } 
+    
     void ChibokDead()
     {
-        Debug.Log("치복이 사망");
-        End.SetActive(true);
-        gameManager.isBattleMode = false;
+        if (!Mode)
+        {
+            Debug.Log("치복이 사망");
+            End.SetActive(true);
+            gameManager.isBattleMode = false;
+        }
     }
-    
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Convenient Store"))
         {
-            //gameManager.isBattleMode = false;
-            // foreach (Monster monster in gameManager.activeMonsters)
-            // {
-            //     monster.DestroyMonster();
-            // }
+            gameManager.isBattleMode = false;
+             // foreach (Monster monster in gameManager.activeMonsters)
+             // {
+             //     monster.DestroyMonster();
+             // }
             //미연시 시작
+            Win.gameObject.SetActive(true);
         }
     }
 }
