@@ -62,8 +62,8 @@ public class GameManager : MonoBehaviour
 
             if (isSpawn)
             {
-                //monsterSpawnManager.SpawnCheck(spawnTurn);
-                monsterSpawnManager.SpawnCheck(2);
+                monsterSpawnManager.SpawnCheck(spawnTurn);
+                //monsterSpawnManager.SpawnCheck(2);
             }
 
             isSpawn = false;

@@ -88,7 +88,8 @@ public class MonsterSpawnManager: MonoBehaviour
         if (turn % 10 == 0)
         {
             //SpawnPosition[2] 큰몹 소환
-            ActiveMonster(2, Type.huge);
+            //ActiveMonster(2, Type.huge);
+            ActiveMonster(3, Type.boss);
         }
     }
 
