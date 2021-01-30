@@ -278,6 +278,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af916c6ec1ab4960b68453119e863543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterStat:
+    curHp: 5
+    maxHp: 5
+    damage: 0
 --- !u!95 &738508943739802298
 Animator:
   serializedVersion: 3

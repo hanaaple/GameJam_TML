@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1785250060204745655}
   - component: {fileID: 3903663013298967098}
   - component: {fileID: -6718063559001893076}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: "\uD070\uBAB9"
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3757512177645422044, guid: 6b42bb245b6317746a7db15b60717db2,
+  m_Sprite: {fileID: 5866555855186563558, guid: 29e1e025cfd204244bb148d88f3b1188,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3515625, y: 1.453125}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -145,6 +145,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af916c6ec1ab4960b68453119e863543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterStat:
+    curHp: 7
+    maxHp: 7
+    damage: 0
 --- !u!1 &6175186234637551667
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,13 +158,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7191391871628164943}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7191391871628164943
 Transform:
   m_ObjectHideFlags: 0
@@ -187,7 +191,7 @@ GameObject:
   - component: {fileID: 7522834268878266092}
   - component: {fileID: 264930264769621643}
   - component: {fileID: 3626187034946997535}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

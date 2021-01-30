@@ -9,10 +9,11 @@ public class GameManager : MonoBehaviour
     public bool isSpawn;
     public Text text;
     internal List<Monster> activeMonsters = new List<Monster>();
-    [SerializeField] private float N;
+    public float N;
 
     [SerializeField] private Chibok chibok;
     [SerializeField] private Player player;
+    [SerializeField] private Transform targetPosition;
     [SerializeField] private MonsterSpawnManager monsterSpawnManager;
     [SerializeField] private MoveManager moveManager;
     
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         player.InitializePlayer();
-        monsterSpawnManager.InitializeMonsterSpawnManager(this, player, moveManager);
+        monsterSpawnManager.InitializeMonsterSpawnManager(this, targetPosition, moveManager);
         chibok.InitializeChibok(moveManager, this);
     }
 

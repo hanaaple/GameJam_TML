@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2783827084752955080}
   - component: {fileID: 2785947182034018482}
   - component: {fileID: 8529708075754842843}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: "\uCE58\uBCF5\uC774"
   m_TagString: Chibok
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 6639436340134852063, guid: 77c3d114210404441815e40fe1f1f1e5,
+  m_Sprite: {fileID: -3103962575878857664, guid: 927a5135572b501488946ebefc83c075,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -9,7 +9,7 @@ public class MonsterSpawnManager: MonoBehaviour
     
     private List<ObjectPool> monsterPool = new List<ObjectPool>();
     private GameManager gameManager;
-    private Player player;
+    private Transform targetPosition;
     private MoveManager moveManager;
     
     //0~3번까지 순서대로 잡몹, 중간몹, 큰몹, 보스몹
@@ -33,10 +33,10 @@ public class MonsterSpawnManager: MonoBehaviour
         monsterPool.Add(bossPool);
     }
 
-    public void InitializeMonsterSpawnManager(GameManager gameManager, Player player, MoveManager moveManager)
+    public void InitializeMonsterSpawnManager(GameManager gameManager, Transform targetPosition, MoveManager moveManager)
     {
         this.gameManager = gameManager;
-        this.player = player;
+        this.targetPosition = targetPosition;
         this.moveManager = moveManager;
     }
 
@@ -46,7 +46,7 @@ public class MonsterSpawnManager: MonoBehaviour
         GameObject monster = monsterPool[(int) monsterType].GetObject();
         //몬스터 초기화 및 동작
         monster.transform.position = SpawnPosition[spawnIndex].position;
-        monster.GetComponent<Monster>().InitializeMonster(player, gameManager, moveManager);
+        monster.GetComponent<Monster>().InitializeMonster(targetPosition, gameManager, moveManager);
         monster.GetComponent<Monster>().ActiveMonster(monsterType);
     }
 
