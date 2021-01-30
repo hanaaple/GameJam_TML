@@ -13,11 +13,17 @@ public class Chibok : Common
     public GameObject Win;
     public bool Mode;
     public Text text;
-    public void InitializeChibok(MoveManager moveManager, GameManager gameManager)
+
+    private void Awake()
     {
-        this.gameManager = gameManager;
-        this.moveManager = moveManager;
         anim = gameObject.GetComponent<Animator>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        moveManager = GameObject.Find("GameManager").GetComponent<MoveManager>();
+    }
+    public void InitializeChibok(Vector3 position, Transform targetPosition)
+    {
+        transform.position = position;
+        this.targetPosition = targetPosition;
     }
 
     public void Active()

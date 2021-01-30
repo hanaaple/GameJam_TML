@@ -15,15 +15,18 @@ public class Player : Common
     private Transform pivotTransform;
     private Transform attackRange;
     public GameObject End;
-    private GameManager gameManager;
-    public void InitializePlayer(GameManager gameManager)
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+    public void InitializePlayer(Vector3 position)
     {
         attackRange = transform.GetChild(0).GetChild(0).transform;
         pivotTransform = transform.GetChild(0).transform;
-        anim = GetComponent<Animator>();
         playerStat = new Stat();
         playerStat.curHp = playerStat.maxHp;
-        this.gameManager = gameManager;
+        transform.position = position;
     }
     void Update()
     {

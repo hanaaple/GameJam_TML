@@ -960,9 +960,8 @@ MonoBehaviour:
   N: 2
   chibok: {fileID: 6622242169562575900}
   player: {fileID: 2112325982}
-  targetPosition: {fileID: 1716256731}
+  targetPosition: {fileID: 133477808}
   monsterSpawnManager: {fileID: 224177248}
-  moveManager: {fileID: 440593042}
 --- !u!4 &440593041
 Transform:
   m_ObjectHideFlags: 0
@@ -2304,12 +2303,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1716256731 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4816738269489788282, guid: 83dd1b60514ed71479520281aff92f56,
-    type: 3}
-  m_PrefabInstance: {fileID: 8529708074542606117}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1727972525
 GameObject:
   m_ObjectHideFlags: 0
