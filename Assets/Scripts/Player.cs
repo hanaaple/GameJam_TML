@@ -97,6 +97,7 @@ public class Player : Common
     {
         End.SetActive(true);
         gameManager.isBattleMode = false;
+        gameManager.isWin = false;
         Debug.Log("플레이어 사망");
     }
 

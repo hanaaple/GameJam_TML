@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private float behaviorTime;
     internal int spawnTurn;
     internal bool isBattleMode = false;
+    internal bool isWin = false;
     public bool isBossDestroyed { get; internal set; }
 
     public void Awake()
@@ -89,7 +90,10 @@ public class GameManager : MonoBehaviour
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }
-        sceneController.MoveNext();
+        if (isWin)
+        {
+            sceneController.MoveNext();
+        }
     }
 
     void asd()
@@ -120,6 +124,9 @@ public class GameManager : MonoBehaviour
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }
-        sceneController.MoveNext();
+        if (isWin)
+        {
+            sceneController.MoveNext();
+        }
     }
 }
