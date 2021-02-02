@@ -29,7 +29,7 @@ public class Player : Common
     public void InitializePlayer(Vector3 position)
     {
         playerStat.curHp = playerStat.maxHp;
-        transform.position = position;
+        transform.localPosition = position;
     }
     void Update()
     {
@@ -136,27 +136,26 @@ public class Player : Common
             moveVec = isHorizontalMove ? new Vector2(h, 0) : new Vector2(0, v);
             //transform.position = Vector2.MoveTowards(transform.position,  transform.position + moveVec, 3f);
             //애니메이션 추가
-            StartCoroutine(asd(transform, transform.position + moveVec));
+            StartCoroutine(asd(transform, transform.localPosition + moveVec));
             isTired = true;
         }
     }
     IEnumerator asd(Transform trans, Vector3 target)
     {
         float count = 0;
-        Vector3 wasPos = trans.position;
+        Vector3 wasPos = trans.localPosition;
         while (true)
         {
             count += Time.deltaTime * 5f;
-            trans.position = Vector3.Lerp(wasPos, target, count);
+            trans.localPosition = Vector3.Lerp(wasPos, target, count);
             if (count >= 1)
             {
-                trans.position = target;
+                trans.localPosition = target;
                 break;
             }
 
             yield return null;
         }
-
     }
 
     IEnumerator ShowAttackRange(KeyCode keyCode)

@@ -22,7 +22,7 @@ public class Chibok : Common
     }
     public void InitializeChibok(Vector3 position, Transform targetPosition)
     {
-        transform.position = position;
+        transform.localPosition = position;
         this.targetPosition = targetPosition;
     }
 

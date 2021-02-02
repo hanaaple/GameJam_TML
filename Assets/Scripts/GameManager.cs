@@ -31,8 +31,8 @@ public class GameManager : MonoBehaviour
         if (stageIndex == 1)
         {
             StartCoroutine(Timer());
-            player.InitializePlayer(new Vector3(-8, -4, 0));
-            chibok.InitializeChibok(new Vector3(-9, -4, 0), targetPosition[0]);
+            player.InitializePlayer(new Vector3(-6.5f, 3f, 0));
+            chibok.InitializeChibok(new Vector3(-5.5f, 3f, 0), targetPosition[0]);
             monsterSpawnManager.InitializeMonsterSpawnManager();
             StartCoroutine(StageOneRoutine());
         }
@@ -57,6 +57,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Spawn()
+    {
+        monsterSpawnManager.SpawnCheck(spawnTurn);
+        spawnTurn++;
+    }
+    
+
     IEnumerator StageOneRoutine()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(N);
@@ -75,13 +82,9 @@ public class GameManager : MonoBehaviour
 
             if (isSpawn)
             {
-                monsterSpawnManager.SpawnCheck(spawnTurn);
+                Invoke("Spawn", 0.3f);
                 //monsterSpawnManager.SpawnCheck(2);
             }
-
-            isSpawn = false; // spawn one time
-
-            spawnTurn++;
             yield return waitForSeconds;
             //N초 동안 플레이어 자유 행동 가능
         }

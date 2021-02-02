@@ -63,10 +63,10 @@ public class MonsterSpawnManager : MonoBehaviour
 
         if (turn == 2)
         {
-            ActiveMonster(0, Type.idle);
-            ActiveMonster(1, Type.medium);
-            //ActiveMonster(2, Type.huge);
-            ActiveMonster(3, Type.boss);
+            // ActiveMonster(0, Type.idle);
+            // ActiveMonster(1, Type.medium);
+            // //ActiveMonster(2, Type.huge);
+            // ActiveMonster(3, Type.boss);
         }
 
         //3턴마다 소환
