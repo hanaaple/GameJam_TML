@@ -12,19 +12,22 @@ public class Player : Common
     private bool isAttack;
     private Vector3 moveVec = Vector3.down;
     private Animator anim;
+    private Animator effectAnim;
     private Transform pivotTransform;
     private Transform attackRange;
     public GameObject End;
+    private KeyCode lastKeyCode;
     private void Awake()
-    {
-        anim = GetComponent<Animator>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-    }
-    public void InitializePlayer(Vector3 position)
     {
         attackRange = transform.GetChild(0).GetChild(0).transform;
         pivotTransform = transform.GetChild(0).transform;
         playerStat = new Stat();
+        anim = GetComponent<Animator>();
+        effectAnim = transform.GetChild(1).GetComponent<Animator>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+    public void InitializePlayer(Vector3 position)
+    {
         playerStat.curHp = playerStat.maxHp;
         transform.position = position;
     }
@@ -35,7 +38,7 @@ public class Player : Common
         {
             if (isAttack)
             {
-                PlayerAttack();
+                PlayerAttack(lastKeyCode);
             }
             // 공격 시 방향 조절은 코루틴으로
             //코루틴에서 키를 누른 상태에서 움직일 경우 그에 따라 방향 결정
@@ -196,6 +199,7 @@ public class Player : Common
         {
             if (!isAttack)
             {
+                lastKeyCode = keyCode;
                 isAttack = true;
             }
 
@@ -205,7 +209,7 @@ public class Player : Common
             {
                 attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
             }
-            pivotTransform.gameObject.SetActive(false);
+            attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 
@@ -222,16 +226,19 @@ public class Player : Common
         anim.SetBool("isAttack", false);
     }
 
-    void PlayerAttack()
+    void PlayerAttack(KeyCode keyCode)
     {
         isTired = true;
         isAttack = false;
         int layerMask = (1 << LayerMask.NameToLayer("Monster"));
         RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position + moveVec, attackRange.localScale, pivotTransform.rotation.z, moveVec, 0f, layerMask);
-
+        
         anim.SetBool("isAttack", true);
         if (moveVec.y == -1)
         {
+            //effectAnim.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            //effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            effectAnim.transform.rotation = Quaternion.Euler(Quaternion.identity.x, Quaternion.identity.y, Quaternion.identity.z + 180);
             //앞옆뒤에 따라 초 다르게 설정
             anim.SetTrigger("isAttackFront");
             StartCoroutine(ani(0.417f));
@@ -239,6 +246,8 @@ public class Player : Common
         }
         else if (moveVec.y == 1)
         {
+            effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            //effectAnim.transform.rotation = Quaternion.Euler(Quaternion.identity.x, Quaternion.identity.y, Quaternion.identity.z + 180f);
             //뒤
             anim.SetTrigger("isAttackBack");
             StartCoroutine(ani(0.333f));
@@ -246,16 +255,45 @@ public class Player : Common
         }
         else if (moveVec.x != 0)
         {
+            if(moveVec.x == -1) effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = true; 
+            //attackRange.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
             anim.SetTrigger("isAttackSide");
             StartCoroutine(ani(0.417f));
         }
         anim.SetBool("isAttack", true);
-
         foreach (RaycastHit2D hit in hits)
         {
             hit.transform.GetComponent<Common>().ReceiveDamage(playerStat.damage);
         }
+        
+        effectAnim.transform.position = attackRange.transform.position;
+        effectAnim.transform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
+            Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z + 90f);
+        if (lastKeyCode == KeyCode.Z)
+        {
+            effectAnim.SetTrigger("IdleEffect");
+            Invoke("EndEffect", 0.333f);
+        }
+        else if (lastKeyCode == KeyCode.X)
+        {
+            effectAnim.SetTrigger("HugeEffect");
+            Invoke("EndEffect", 0.5f);
+        }
+        else if (lastKeyCode == KeyCode.C)
+        {
+            effectAnim.SetTrigger("RangeEffect");
+            Invoke("EndEffect", 0.5f);
+        }
+        lastKeyCode = KeyCode.None;
     }
+
+    void EndEffect()
+    {
+        effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = false;
+        effectAnim.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        effectAnim.SetTrigger("EndEffect");
+    }
+    //191 79 76
     // 기본 공격 - z
     void Attack()
     {
@@ -263,9 +301,7 @@ public class Player : Common
         playerStat.damage = 2;
         Debug.Log("z 누름");
         isTired = true;
-        pivotTransform.gameObject.SetActive(true);
-        pivotTransform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
-            Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z);
+        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         attackRange.localPosition = Vector3.up;
         attackRange.localScale = new Vector3(3f, 1f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.Z));
@@ -279,7 +315,7 @@ public class Player : Common
         playerStat.damage = 3;
         Debug.Log("x 누름");
         isTired = true;
-        pivotTransform.gameObject.SetActive(true);
+        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         attackRange.localPosition = new Vector3(0f, 1.5f);
         attackRange.localScale = new Vector3(3f, 2f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.X));
@@ -293,7 +329,7 @@ public class Player : Common
         playerStat.damage = 3;
         Debug.Log("c 누름");
         isTired = true;
-        pivotTransform.gameObject.SetActive(true);
+        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         attackRange.localPosition = Vector3.up * 3f;
         attackRange.localScale = new Vector3(1f, 5f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.C));
