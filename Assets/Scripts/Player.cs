@@ -163,6 +163,7 @@ public class Player : Common
         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         while (Input.GetKey(keyCode))
         {
+            isTired = true;
             //피벗이 현재 캐릭터 방향으로 되며 방향키를 누를 시 방향 변경
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
