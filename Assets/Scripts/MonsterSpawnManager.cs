@@ -82,7 +82,7 @@ public class MonsterSpawnManager : MonoBehaviour
             else
             {
                 //SpawnPosition[1] 잡몹 소환
-                //ActiveMonster(1, Type.idle);
+                ActiveMonster(1, Type.idle);
             }
         }
 
@@ -90,7 +90,6 @@ public class MonsterSpawnManager : MonoBehaviour
         {
             //SpawnPosition[2] 큰몹 소환
             //ActiveMonster(2, Type.huge);
-            ActiveMonster(3, Type.boss);
         }
     }
 

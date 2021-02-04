@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//모든 몬스터의 상위 클래스
 public class Monster : Common
 {
     protected Transform targetPosition;
@@ -23,6 +22,9 @@ public class Monster : Common
     private RaycastHit2D[] hits;
     private Transform attackRange;
     private SpriteRenderer spriteRenderer;
+    private Animator effectAnim;
+    private AttackType attackType;
+    enum AttackType {Idle, Range, Huge, Final}
     
     public void InitializeMonster(Transform targetPosition, GameManager gameManager, MoveManager moveManager)
     {
@@ -33,12 +35,13 @@ public class Monster : Common
         this.targetPosition = targetPosition;
         this.gameManager = gameManager;
         this.moveManager = moveManager;
+        effectAnim = transform.GetChild(1).GetComponent<Animator>();
     }
 
     private void Attack()
     {
         isTired = true;
-        pivotTransform.gameObject.SetActive(false);
+        attackRange.gameObject.SetActive(false);
         int layerMask = (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Chibok"));
         hits = Physics2D.BoxCastAll(transform.position + attackRange.localPosition, attackRange.localScale, 0,
             Vector3.up, 0f,
@@ -46,8 +49,34 @@ public class Monster : Common
         RayAttack(hits);
         anim.SetTrigger("Attack");
         anim.SetBool("isAttack", true);
+        float effectTime = 0f;
+        switch (attackType)
+        {
+            case AttackType.Idle:
+                effectTime = 0.333f;
+                effectAnim.SetTrigger("IdleEffect");
+                break;
+            case AttackType.Range:
+                effectTime = 0.5f;
+                effectAnim.SetTrigger("RangeEffect");
+                break;
+            case AttackType.Huge:
+                effectTime = 0.5f;
+                effectAnim.SetTrigger("HugeEffect");
+                break;
+            // case AttackType.Final:
+            //     effectTime = 0.5f;
+            //     effectAnim.SetTrigger("FinalEffect");
+            //     break;
+        }
+        Invoke("EndEffect", effectTime);
     }
-    
+    void EndEffect()
+    {
+        effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = false;
+        effectAnim.gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        effectAnim.SetTrigger("EndEffect");
+    }
     
     //N초마다 활동
     public void Active()
@@ -60,7 +89,7 @@ public class Monster : Common
         if (monsterType == MonsterSpawnManager.Type.idle)
         {
             anitime =0.6f;
-            if (pivotTransform.gameObject.activeSelf)
+            if (attackRange.gameObject.activeSelf)
             {
                 Attack();
                 StartCoroutine(ani(anitime));
@@ -70,7 +99,7 @@ public class Monster : Common
         else if (monsterType == MonsterSpawnManager.Type.medium)
         {
             anitime = 0.517f;
-            if (pivotTransform.gameObject.activeSelf)
+            if (attackRange.gameObject.activeSelf)
             {
                 Attack();
                 StartCoroutine(ani(anitime));
@@ -83,7 +112,7 @@ public class Monster : Common
         else if (monsterType == MonsterSpawnManager.Type.huge)
         {
             //anitime = 1f;
-            if (pivotTransform.gameObject.activeSelf)
+            if (attackRange.gameObject.activeSelf)
             {
                 Attack();
                 StartCoroutine(ani(anitime));
@@ -95,7 +124,7 @@ public class Monster : Common
         else if (monsterType == MonsterSpawnManager.Type.boss)
         {
             anitime = 0.35f;
-            if (pivotTransform.gameObject.activeSelf)
+            if (attackRange.gameObject.activeSelf)
             {
                 Attack();
                 //finalAttack 체크
@@ -146,7 +175,7 @@ public class Monster : Common
             yield return waitForFixedUpdate;            
         }
         anim.SetBool("isAttack", false);
-        pivotTransform.gameObject.SetActive(false);
+        attackRange.gameObject.SetActive(false);
         isFinalAttackActive = false;
     }
     
@@ -160,25 +189,28 @@ public class Monster : Common
             yield return waitForFixedUpdate;            
         }
         anim.SetBool("isAttack", false);
-        pivotTransform.gameObject.SetActive(false);
+        attackRange.gameObject.SetActive(false);
     }
     
     private void IdleAttack()
     {
+        attackType = AttackType.Idle;
         monsterStat.damage = 1;
-        CheckAttackDirection(1f, new Vector3(3f, 1f, 1f));
+        CheckAttack(1f, new Vector3(3f, 1f, 1f));
     }
 
     private void RangeAttack()
     {
+        attackType = AttackType.Range;
         monsterStat.damage = 2;
-        CheckAttackDirection(2f, new Vector3(1f, 3f, 1f));
+        CheckAttack(2f, new Vector3(1f, 3f, 1f));
     }
     
     private void StrongAttack()
     {
+        attackType = AttackType.Huge;
         monsterStat.damage = 3;
-        CheckAttackDirection(1.5f, new Vector3(3f, 2f, 1f));
+        CheckAttack(1.5f, new Vector3(3f, 2f, 1f));
     }
     
     //실제 공격 판정
@@ -199,6 +231,7 @@ public class Monster : Common
     }
     void FinalAttack()
     {
+        attackType = AttackType.Final;
         monsterStat.damage = 5;
         isTired = true;
         anim.SetTrigger("FinalAttackReady");
@@ -210,7 +243,7 @@ public class Monster : Common
         attackRange.localPosition = Vector3.zero;
         attackRange = transform.GetChild(0).GetChild(0).transform;
         attackRange.localScale = new Vector3(7f, 7f, 1f);
-        pivotTransform.gameObject.SetActive(true);
+        attackRange.gameObject.SetActive(true);
         int layerMask = (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Chibok"));
 
 
@@ -222,18 +255,22 @@ public class Monster : Common
     {
         if ((int)moveVec.y == 1)
         {
+            effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = true;
+            //effectAnim.transform.rotation = Quaternion.Euler(Quaternion.identity.x, Quaternion.identity.y, Quaternion.identity.z + 90);
             anim.SetInteger("isVertical", 1);
             anim.SetBool("isHorizontal", false);
             spriteRenderer.flipX = false;
             //뒤
         }else if ((int)moveVec.y == -1)
         {
+            //effectAnim.transform.rotation = Quaternion.Euler(Quaternion.identity.x, Quaternion.identity.y, Quaternion.identity.z + 180);
             anim.SetBool("isHorizontal", false);
             anim.SetInteger("isVertical", -1);
             spriteRenderer.flipX = false;
             //앞
         }else if ((int)moveVec.x == 1)
         {
+            effectAnim.gameObject.GetComponent<SpriteRenderer>().flipY = true;
             anim.SetInteger("isVertical", 0);
             anim.SetBool("isHorizontal", true);
             //오른쪽
@@ -245,8 +282,11 @@ public class Monster : Common
             //왼쪽
             spriteRenderer.flipX = false;
         }
+        effectAnim.transform.position = attackRange.transform.position;
+        effectAnim.transform.rotation = Quaternion.Euler(pivotTransform.position.x, pivotTransform.position.y,
+             Quaternion.FromToRotation(Vector3.up, moveVec).eulerAngles.z + 90f);
     }
-    private void CheckAttackDirection(float attackRangePos, Vector3 attackRangeScale)
+    private void CheckAttack(float attackRangePos, Vector3 attackRangeScale)
     {
         attackRange.localScale = attackRangeScale;
         hitCounts.Clear();
@@ -284,7 +324,7 @@ public class Monster : Common
         
         if (hitCounts.Max() == 0)
         {
-            pivotTransform.gameObject.SetActive(false);
+            attackRange.gameObject.SetActive(false);
             return;
         }
         
@@ -313,7 +353,7 @@ public class Monster : Common
         if (hits != null)
         {
             isTired = true;
-            pivotTransform.gameObject.SetActive(true);
+            attackRange.gameObject.SetActive(true);
             CheckDirection();
         }
     }

@@ -209,7 +209,7 @@ public class Player : Common
             {
                 attackRange.localScale = new Vector3(attackRange.localScale.y, attackRange.localScale.x);
             }
-            attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            attackRange.gameObject.SetActive(false);
         }
     }
 
@@ -301,7 +301,7 @@ public class Player : Common
         playerStat.damage = 2;
         Debug.Log("z 누름");
         isTired = true;
-        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        attackRange.gameObject.SetActive(true);
         attackRange.localPosition = Vector3.up;
         attackRange.localScale = new Vector3(3f, 1f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.Z));
@@ -315,7 +315,7 @@ public class Player : Common
         playerStat.damage = 3;
         Debug.Log("x 누름");
         isTired = true;
-        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        attackRange.gameObject.SetActive(true);
         attackRange.localPosition = new Vector3(0f, 1.5f);
         attackRange.localScale = new Vector3(3f, 2f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.X));
@@ -329,7 +329,7 @@ public class Player : Common
         playerStat.damage = 3;
         Debug.Log("c 누름");
         isTired = true;
-        attackRange.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        attackRange.gameObject.SetActive(true);
         attackRange.localPosition = Vector3.up * 3f;
         attackRange.localScale = new Vector3(1f, 5f, 1f);
         StartCoroutine(ShowAttackRange(KeyCode.C));

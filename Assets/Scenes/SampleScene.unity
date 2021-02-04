@@ -2992,7 +2992,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!224 &984693855
 RectTransform:
@@ -4855,6 +4855,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1686796209}
     m_Modifications:
+    - target: {fileID: 6838508707866341809, guid: a0534bcbf68837746b762ff55e89acbd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838508707866341811, guid: a0534bcbf68837746b762ff55e89acbd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6838508709541317090, guid: a0534bcbf68837746b762ff55e89acbd,
         type: 3}
       propertyPath: m_RootOrder
@@ -4863,7 +4873,7 @@ PrefabInstance:
     - target: {fileID: 6838508709541317090, guid: a0534bcbf68837746b762ff55e89acbd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 6838508709541317090, guid: a0534bcbf68837746b762ff55e89acbd,
         type: 3}
@@ -4978,7 +4988,7 @@ PrefabInstance:
     - target: {fileID: 4816738269489788282, guid: 83dd1b60514ed71479520281aff92f56,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.5
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4816738269489788282, guid: 83dd1b60514ed71479520281aff92f56,
         type: 3}
